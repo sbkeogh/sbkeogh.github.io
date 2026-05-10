@@ -247,31 +247,848 @@
 
   <script>
     const restaurants = [
-      {name:'Prime: An American Kitchen & Bar', town:'Stamford', area:'Harbor Point / Stamford Harbor', price:'$$$$', rating:4.4, reviews:1055, vibe:['upscale','romantic'], cuisine:['steak','seafood','sushi'], summary:'Polished steak-and-seafood destination with scenic harbor views and a strong special-occasion feel.', address:'78 Southfield Ave, Stamford, CT', hours:'Daily lunch and dinner', sourceUrl:'https://stamford.restaurantprime.com?ct-referrer=perplexity', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ca53484e55390e9643071f63f32c983d458c09f8.jpg', alt:'Plated seafood dish from Prime in Stamford.', quotes:[['Map review','The host sat our large group at a table by the water for a gorgeous view.'],['CT waterfront guide','Elevated dining meets effortless waterfront charm with sweeping water views and an open-air deck.']], tags:['Harbor views','Outdoor seating','Reservations recommended']},
-      {name:'The Wheel', town:'Stamford', area:'Harbor Point', price:'$$$', rating:4.4, reviews:488, vibe:['upscale','family'], cuisine:['new american','seafood'], summary:'Stylish Harbor Point restaurant with water-adjacent outdoor seating and a menu that leans brunch-to-dinner.', address:'4 Star Point Suite 101, Stamford, CT', hours:'Daily', sourceUrl:'https://www.thevillagewheel.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3b272b2eeb7a4fa0d10d913a19b0184ffccfa035.jpg', alt:'Outdoor patio at The Wheel in Stamford overlooking the water.', quotes:[['Map review','Outdoor table with a pleasant view of a walkway over the water.'],['OpenTable listing','One of the prominent Stamford waterfront choices in current diner listings.']], tags:['Brunch','Outdoor seating','Harbor Point']},
-      {name:'Sign of the Whale', town:'Stamford', area:'Harbor Point', price:'$$$', rating:4.1, reviews:1836, vibe:['casual','lively'], cuisine:['gastropub','american'], summary:'A bigger, louder waterfront social spot known more for atmosphere, rooftop seating, and drinks than destination seafood.', address:'6 Harbor Point Rd, Stamford, CT', hours:'Daily', sourceUrl:'http://www.signofthewhalect.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/0147f4a1c7c244577c685b2efaf9b134082c0534.jpg', alt:'Interior social dining scene at Sign of the Whale in Stamford.', quotes:[['Map review','Great food, awesome vibe and scenery.'],['OpenTable listing','Regularly surfaced among Stamford waterfront options.']], tags:['Rooftop seating','Brunch','Groups']},
-      {name:'Brennan's By The Beach', town:'Stamford', area:'Shippan', price:'$$', rating:4.5, reviews:324, vibe:['casual','family'], cuisine:['pub','american'], summary:'Neighborhood beach-adjacent pub rather than a polished destination, useful for an easygoing Shippan meal.', address:'82 Iroquois Rd, Stamford, CT', hours:'Daily', sourceUrl:'http://www.brennansbythebeach.com', image:'https://picsum.photos/seed/brennans-shippan/1200/800', alt:'Atmospheric placeholder image for Brennan's By The Beach.', quotes:[['Map review','Friendly, clean, great service and the food was delicious.']], tags:['Beach nearby','Casual','Pub fare']},
-      {name:'Sunset Grille', town:'Norwalk', area:'Norwalk Cove Marina', price:'$$', rating:4.3, reviews:609, vibe:['romantic','casual'], cuisine:['seafood'], summary:'Seasonal marina restaurant that is especially attractive in warm weather for harbor views and sunset timing.', address:'52 Calf Pasture Beach Rd, Norwalk, CT', hours:'Seasonal, mid-March to October', sourceUrl:'http://www.sunsetgrille.net', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/566954623608bf0b1ddca8a7736c22b9476da80a.jpg', alt:'Sunset patio view at Sunset Grille in Norwalk.', quotes:[['Map review','Excellent food in an old fashion seaside atmosphere next to the boat dock.'],['Reddit comment','Decent food and nice views.']], tags:['Seasonal','Marina','Sunset']},
-      {name:'Harbor Lights', town:'Norwalk', area:'Norwalk Harbor', price:'$$$', rating:4.1, reviews:648, vibe:['upscale','romantic'], cuisine:['seafood','mediterranean'], summary:'A classic white-tablecloth waterfront choice with strong sunset appeal and a more traditional dining-room tone.', address:'82 Seaview Ave, Norwalk, CT', hours:'Daily lunch and dinner', sourceUrl:'https://harborlightsrestaurant-ct.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3f43f63da44d8314f5d30cec6d25239fea802c3f.jpg', alt:'Outdoor waterfront patio at Harbor Lights in Norwalk.', quotes:[['Map review','The food and service were excellent along with a fantastic sunset view.'],['Venue site','Fairfield County’s premier waterfront dining destination with Mediterranean-inspired cuisine and harbor views.']], tags:['Sunset dinners','Outdoor patio','Dockside access']},
-      {name:'Sono Seaport Seafood', town:'Norwalk', area:'South Norwalk Harbor', price:'$$', rating:4.0, reviews:622, vibe:['casual','family'], cuisine:['seafood'], summary:'A classic summer seafood place with picnic-table energy and direct harbor atmosphere.', address:'100 Water St, Norwalk, CT', hours:'Seasonal emphasis', sourceUrl:'http://www.sonoseaportseafood.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/349c3c35dcd41bff3a5d4181a7ae09564ed0c5c5.jpg', alt:'Waterfront deck at Sono Seaport Seafood in Norwalk.', quotes:[['Map review','Delicious food, great view and atmosphere and friendly service.']], tags:['Picnic tables','Harbor views','Summer feel']},
-      {name:'Black Duck Cafe', town:'Westport', area:'Saugatuck River', price:'$$', rating:4.2, reviews:946, vibe:['casual','lively'], cuisine:['seafood','tavern'], summary:'Historic barge setting on the river; more about atmosphere and local character than fine dining polish.', address:'605 Riverside Ave, Westport, CT', hours:'Lunch and dinner', sourceUrl:'https://www.blackduckwestport.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/414754dbb7ef639382a51434f2b9b4bb4f94ecb1.jpg', alt:'Exterior of Black Duck Cafe in Westport by the water.', quotes:[['Map review','Great service, fun atmosphere, beautiful view of the Saugatuck River.']], tags:['Historic barge','Riverfront','Live music']},
-      {name:'Rive Bistro', town:'Westport', area:'Riverside / Saugatuck', price:'$$$', rating:4.5, reviews:476, vibe:['romantic','upscale'], cuisine:['french'], summary:'A more intimate and refined riverfront option, appealing for quieter meals and date-night dining.', address:'299 Riverside Ave, Westport, CT', hours:'Lunch, dinner, brunch', sourceUrl:'http://rivebistro.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/8736bbd70ec4f9885fc3d6a57506d1ffaa6a53ee.jpg', alt:'Bright riverfront dining room at Rive Bistro in Westport.', quotes:[['Map review','The food was delicious and the atmosphere was quaint by the river.']], tags:['French bistro','Date night','Riverfront']},
-      {name:'The Whelk', town:'Westport', area:'Saugatuck River', price:'$$$', rating:4.5, reviews:370, vibe:['upscale','romantic'], cuisine:['seafood','oyster bar'], summary:'One of the stronger seafood-led choices in the corridor, with a more serious culinary reputation than many view-first spots.', address:'575 Riverside Ave, Westport, CT', hours:'Lunch and dinner', sourceUrl:'http://www.thewhelkwestport.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ffad96dde8127f579f54629fa428a44f0cc74b50.jpg', alt:'Exterior of The Whelk in Westport.', quotes:[['Map review','Great lunch spot with great ambiance and delicious seafood.']], tags:['Seafood focus','Oysters','Upscale']},
-      {name:'The Boathouse at Saugatuck', town:'Westport', area:'Saugatuck River', price:'$$$', rating:4.4, reviews:173, vibe:['romantic','upscale'], cuisine:['new american','seafood'], summary:'A rowing-club setting with balcony river views and a lower-key, polished atmosphere.', address:'521 Riverside Ave, Westport, CT', hours:'Lunch and dinner', sourceUrl:'https://www.boathouseatsaugatuck.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/a70e4ffa412675cf99368489fed980653b4b5945.jpg', alt:'Outdoor dining area at The Boathouse at Saugatuck in Westport.', quotes:[['Map review','Beautiful views, friendly staff and great food.']], tags:['Balcony views','Quiet-ish','Riverfront']},
-      {name:'Boca Oyster Bar', town:'Bridgeport', area:'Steelpointe Harbor', price:'$$$', rating:4.1, reviews:1435, vibe:['upscale','lively'], cuisine:['seafood','oyster bar'], summary:'A stylish marina-side seafood restaurant that balances strong views with a social scene.', address:'10 E Main St, Bridgeport, CT', hours:'Daily', sourceUrl:'http://www.bocaoysterbar.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/c77fc7f5ed3c3796dc7c93495b69ec8262d6167f.jpg', alt:'Waterfront dining pavilion at Boca Oyster Bar in Bridgeport.', quotes:[['Map review','Easy to dock a boat, good service and delicious dining.'],['Dock-and-dine guide','Enjoy expansive water views while you brunch, lunch and dine at this Steelpointe Harbor eatery.']], tags:['Oyster bar','Marina','Outdoor seating']},
-      {name:'Captain's Cove Seaport', town:'Bridgeport', area:'Black Rock', price:'$$', rating:4.4, reviews:2325, vibe:['casual','lively','family'], cuisine:['marina bar','mixed'], summary:'Big deck, marina, and event energy; excellent for a casual water setting, not for a quiet meal.', address:'1 Bostwick Ave, Bridgeport, CT', hours:'Daily', sourceUrl:'http://www.captainscoveseaport.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/20f4d11e3dda7149dc05281b2bdba22a8873a0b4.jpg', alt:'Crowded outdoor waterfront scene at Captain's Cove Seaport in Bridgeport.', quotes:[['Map review','Good menu, drinks and great views from the outdoor seating.']], tags:['Big outdoor deck','Marina','Casual']},
-      {name:'Joey C's Boathouse', town:'Stratford', area:'Housatonic River', price:'$$', rating:4.0, reviews:1867, vibe:['casual','lively','family'], cuisine:['seafood','bar and grill'], summary:'Busy dockside patio restaurant with broad appeal and a live-music, group-friendly energy.', address:'955 Ferry Blvd, Stratford, CT', hours:'Daily', sourceUrl:'https://joeycsboathouse.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/eee80bad92f65e8ed73280c24c75604f49d39b87.jpg', alt:'Interior of Joey C's Boathouse in Stratford.', quotes:[['Map review','Great view of the water, our waitress was phenomenal.']], tags:['Dockside patio','Live music','Family friendly']},
-      {name:'Riverview Bistro', town:'Stratford', area:'Housatonic River', price:'$$', rating:4.3, reviews:1149, vibe:['family','romantic'], cuisine:['steak','seafood','pasta'], summary:'Riverside setting with more of a mainstream American dining-room menu than a seafood-house identity.', address:'946 Ferry Blvd, Stratford, CT', hours:'Lunch and dinner', sourceUrl:'http://www.riverviewstratford.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/e85f0c48d2cf632fda7ff8d5efcaf1dedf566684.jpg', alt:'Exterior of Riverview Bistro in Stratford.', quotes:[['Map review','Attentive staff, amazing food, beautiful view.']], tags:['River views','Outdoor seating','Easy group choice']},
-      {name:'Riley's by The Seawall', town:'Stratford', area:'Short Beach / seawall', price:'$$', rating:4.3, reviews:521, vibe:['casual','romantic'], cuisine:['seafood'], summary:'Right by the water with stronger beach-and-view appeal than many inland-adjacent river spots.', address:'14 Beach Dr, Stratford, CT', hours:'Lunch and dinner', sourceUrl:'https://www.rileysbythesea.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/182db5c619edb8736387963c43dec8b0f26fd2fa.jpg', alt:'Interior dining view at Riley's by The Seawall in Stratford.', quotes:[['Map review','Great food, outstanding service, wonderful atmosphere and views.'],['Reddit thread','Decent Stratford waterfront choice with good views.']], tags:['Beachfront feel','Seafood','View-forward']},
-      {name:'Outriggers Restaurant', town:'Stratford', area:'Safe Harbor Marina', price:'$$', rating:4.0, reviews:661, vibe:['casual','romantic'], cuisine:['seafood','american'], summary:'Marina-based seafood option with a deck and a bit more of a scenic dining feel than a tavern feel.', address:'555 Broad St, Stratford, CT', hours:'Lunch and dinner', sourceUrl:'https://www.outriggersrestaurant.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/9b938b3cd050d85a15a477136c5cf87cc713c947.jpg', alt:'Banquet-style dining room at Outriggers Restaurant in Stratford.', quotes:[['Map review','Very nice place, beautiful views and good food and service.'],['Dock-and-dine guide','Perched on the Housatonic River with raw bar items and harbor views.']], tags:['Marina deck','Raw bar','River views']},
-      {name:'The Landing at Five Twenty', town:'Stratford', area:'Sniffens Lane', price:'$$', rating:4.3, reviews:175, vibe:['casual','romantic'], cuisine:['american','seafood'], summary:'Smaller waterside option with oysters and lobster rolls, useful for a lower-key alternative in Stratford.', address:'520 Sniffens Ln, Stratford, CT', hours:'Lunch and dinner', sourceUrl:'https://thelandingatfivetwenty.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/1956b829ef48b4d4ea8e6cead7069656b71955c6.jpg', alt:'Outdoor waterfront patio at The Landing at Five Twenty in Stratford.', quotes:[['Map review','Wonderful location, food is great, excellent service and management.']], tags:['Waterside deck','Oysters','Lobster roll']},
-      {name:'Stonebridge Restaurant', town:'Milford', area:'Milford Harbor / river crossing', price:'$$$', rating:4.4, reviews:1790, vibe:['upscale','romantic','family'], cuisine:['seafood','american'], summary:'Longstanding Milford classic with broad appeal, substantial seafood credibility, and a reliably scenic setting.', address:'50 Daniel St, Milford, CT', hours:'Lunch and dinner', sourceUrl:'http://www.stonebridgerestaurant.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/c6cc7fbdd6442fd4999e146d25d5712cf70398f1.jpg', alt:'Warmly lit dining room at Stonebridge Restaurant in Milford.', quotes:[['Map review','Fun and beautiful atmosphere, great food, location and service.'],['CT waterfront guide','Known locally as the Bridge, it grew from a fresh fish market into a full-service upscale restaurant.']], tags:['Milford staple','Seafood focus','Reservations useful']},
-      {name:'Dockside Brewery', town:'Milford', area:'Harbor / riverfront', price:'$$', rating:4.4, reviews:1209, vibe:['casual','lively','family'], cuisine:['brewpub','seafood'], summary:'Good for a social, energetic meal by the water; less refined than Stonebridge but more relaxed and beer-driven.', address:'40 Bridgeport Ave, Milford, CT', hours:'Daily', sourceUrl:'https://www.docksidebrewery.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/16fb11baf689040bc0186e9f27b760f80a70d1c3.jpg', alt:'Outdoor patio at Dockside Brewery in Milford.', quotes:[['Map review','Great food and beverages, awesome vibes on the water.']], tags:['Brewery','Outdoor seating','Social atmosphere']},
-      {name:'Oak Beach Bar + Grill', town:'West Haven', area:'Captain Thomas Blvd', price:'$$', rating:4.9, reviews:222, vibe:['casual','family'], cuisine:['american'], summary:'A newer and very beach-adjacent casual option best for shoreline atmosphere and easy meals.', address:'291 Captain Thomas Blvd, West Haven, CT', hours:'Lunch and dinner', sourceUrl:'http://oakbeachbargrill.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/1b41a512e15ed676fa4df60735a5efc32bd232f6.jpg', alt:'Exterior of Oak Beach Bar and Grill in West Haven.', quotes:[['Map review','The restaurant is beautiful and right down by the beach.']], tags:['Beachfront','Casual','Good for groups']},
-      {name:'Shell & Bones Oyster Bar and Grill', town:'New Haven', area:'City Point / harbor', price:'$$$$', rating:4.5, reviews:3168, vibe:['upscale','romantic'], cuisine:['seafood','oyster bar','steak'], summary:'The marquee New Haven harbor restaurant, pairing strong seafood execution with one of the best direct-over-water settings in the region.', address:'100 S Water St, New Haven, CT', hours:'Daily lunch and dinner', sourceUrl:'http://www.shellandbones.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/34491c1d14de4491658a0c1806e77b7c97523d1b.jpg', alt:'Aerial view of Shell and Bones on the New Haven waterfront.', quotes:[['Map review','Awesome vibe, great food, and phenomenal views of the water.'],['CT waterfront guide','Features year-round indoor and outdoor waterfront dining directly over the water.'],['Reddit thread','Good though a bit pricey; the view is great, right out into the Sound.']], tags:['Destination dining','Direct harbor views','Seafood focus']},
-      {name:'IL Gabbiano', town:'New Haven', area:'Long Wharf', price:'$$$', rating:4.2, reviews:877, vibe:['upscale','family'], cuisine:['italian'], summary:'An Italian waterfront option on Long Wharf that offers a broader menu for groups that do not want a seafood-only meal.', address:'501 Long Wharf Dr, New Haven, CT', hours:'Daily', sourceUrl:'https://ilgabbianonewhaven.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/08891fd9ec0ec7d4269d71a183ac7e0b75001310.jpg', alt:'Interior bar and dining room at IL Gabbiano in New Haven.', quotes:[['Map review','Delicious food, fun atmosphere, and a professional, attentive staff.']], tags:['Italian','Water views','Group-friendly']},
-      {name:'Fair Haven Oyster Co.', town:'New Haven', area:'Fair Haven / Quinnipiac River', price:'$$$$', rating:4.7, reviews:205, vibe:['upscale','romantic'], cuisine:['oyster bar','seafood'], summary:'Smaller, more intimate seafood destination with a refined tone and strong appeal for oyster-focused diners.', address:'307 Front St, New Haven, CT', hours:'Dinner-focused', sourceUrl:'https://www.fairhavenoysterco.com', image:'https://pplx-res.cloudinary.com/image/upload/pplx_search_images/fac0e7a3bf2f2487a06b5e87981633ee039ef6ac.jpg', alt:'Waterfront deck at Fair Haven Oyster Co. in New Haven.', quotes:[['Map review','Cozy vibe, a beautiful setting at the river, and excellent service.'],['Dock-and-dine guide','An elevated seafood bar with expansive waterfront views and a large deck.']], tags:['Intimate','Oysters','Refined']}
-    ];
+      {
+            "name": "Prime: An American Kitchen & Bar",
+            "town": "Stamford",
+            "area": "Harbor Point / Stamford Harbor",
+            "price": "$$$$",
+            "rating": 4.4,
+            "reviews": 1055,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "steak",
+                  "seafood",
+                  "sushi"
+            ],
+            "summary": "Polished steak-and-seafood destination with scenic harbor views and a strong special-occasion feel.",
+            "address": "78 Southfield Ave, Stamford, CT",
+            "hours": "Daily lunch and dinner",
+            "sourceUrl": "https://stamford.restaurantprime.com?ct-referrer=perplexity",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ca53484e55390e9643071f63f32c983d458c09f8.jpg",
+            "alt": "Plated seafood dish from Prime in Stamford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "The host sat our large group at a table by the water for a gorgeous view."
+                  ],
+                  [
+                        "CT waterfront guide",
+                        "Elevated dining meets effortless waterfront charm with sweeping water views and an open-air deck."
+                  ]
+            ],
+            "tags": [
+                  "Harbor views",
+                  "Outdoor seating",
+                  "Reservations recommended"
+            ]
+      },
+      {
+            "name": "The Wheel",
+            "town": "Stamford",
+            "area": "Harbor Point",
+            "price": "$$$",
+            "rating": 4.4,
+            "reviews": 488,
+            "vibe": [
+                  "upscale",
+                  "family"
+            ],
+            "cuisine": [
+                  "new american",
+                  "seafood"
+            ],
+            "summary": "Stylish Harbor Point restaurant with water-adjacent outdoor seating and a menu that leans brunch-to-dinner.",
+            "address": "4 Star Point Suite 101, Stamford, CT",
+            "hours": "Daily",
+            "sourceUrl": "https://www.thevillagewheel.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3b272b2eeb7a4fa0d10d913a19b0184ffccfa035.jpg",
+            "alt": "Outdoor patio at The Wheel in Stamford overlooking the water.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Outdoor table with a pleasant view of a walkway over the water."
+                  ],
+                  [
+                        "OpenTable listing",
+                        "One of the prominent Stamford waterfront choices in current diner listings."
+                  ]
+            ],
+            "tags": [
+                  "Brunch",
+                  "Outdoor seating",
+                  "Harbor Point"
+            ]
+      },
+      {
+            "name": "Sign of the Whale",
+            "town": "Stamford",
+            "area": "Harbor Point",
+            "price": "$$$",
+            "rating": 4.1,
+            "reviews": 1836,
+            "vibe": [
+                  "casual",
+                  "lively"
+            ],
+            "cuisine": [
+                  "gastropub",
+                  "american"
+            ],
+            "summary": "A bigger, louder waterfront social spot known more for atmosphere, rooftop seating, and drinks than destination seafood.",
+            "address": "6 Harbor Point Rd, Stamford, CT",
+            "hours": "Daily",
+            "sourceUrl": "http://www.signofthewhalect.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/0147f4a1c7c244577c685b2efaf9b134082c0534.jpg",
+            "alt": "Interior social dining scene at Sign of the Whale in Stamford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great food, awesome vibe and scenery."
+                  ],
+                  [
+                        "OpenTable listing",
+                        "Regularly surfaced among Stamford waterfront options."
+                  ]
+            ],
+            "tags": [
+                  "Rooftop seating",
+                  "Brunch",
+                  "Groups"
+            ]
+      },
+      {
+            "name": "Brennan's By The Beach",
+            "town": "Stamford",
+            "area": "Shippan",
+            "price": "$$",
+            "rating": 4.5,
+            "reviews": 324,
+            "vibe": [
+                  "casual",
+                  "family"
+            ],
+            "cuisine": [
+                  "pub",
+                  "american"
+            ],
+            "summary": "Neighborhood beach-adjacent pub rather than a polished destination, useful for an easygoing Shippan meal.",
+            "address": "82 Iroquois Rd, Stamford, CT",
+            "hours": "Daily",
+            "sourceUrl": "http://www.brennansbythebeach.com",
+            "image": "https://picsum.photos/seed/brennans-shippan/1200/800",
+            "alt": "Atmospheric placeholder image for Brennan's By The Beach.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Friendly, clean, great service and the food was delicious."
+                  ]
+            ],
+            "tags": [
+                  "Beach nearby",
+                  "Casual",
+                  "Pub fare"
+            ]
+      },
+      {
+            "name": "Sunset Grille",
+            "town": "Norwalk",
+            "area": "Norwalk Cove Marina",
+            "price": "$$",
+            "rating": 4.3,
+            "reviews": 609,
+            "vibe": [
+                  "romantic",
+                  "casual"
+            ],
+            "cuisine": [
+                  "seafood"
+            ],
+            "summary": "Seasonal marina restaurant that is especially attractive in warm weather for harbor views and sunset timing.",
+            "address": "52 Calf Pasture Beach Rd, Norwalk, CT",
+            "hours": "Seasonal, mid-March to October",
+            "sourceUrl": "http://www.sunsetgrille.net",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/566954623608bf0b1ddca8a7736c22b9476da80a.jpg",
+            "alt": "Sunset patio view at Sunset Grille in Norwalk.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Excellent food in an old-fashioned seaside atmosphere next to the boat dock."
+                  ],
+                  [
+                        "Reddit comment",
+                        "Decent food and nice views."
+                  ]
+            ],
+            "tags": [
+                  "Seasonal",
+                  "Marina",
+                  "Sunset"
+            ]
+      },
+      {
+            "name": "Harbor Lights",
+            "town": "Norwalk",
+            "area": "Norwalk Harbor",
+            "price": "$$$",
+            "rating": 4.1,
+            "reviews": 648,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "mediterranean"
+            ],
+            "summary": "A classic white-tablecloth waterfront choice with strong sunset appeal and a more traditional dining-room tone.",
+            "address": "82 Seaview Ave, Norwalk, CT",
+            "hours": "Daily lunch and dinner",
+            "sourceUrl": "https://harborlightsrestaurant-ct.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3f43f63da44d8314f5d30cec6d25239fea802c3f.jpg",
+            "alt": "Outdoor waterfront patio at Harbor Lights in Norwalk.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "The food and service were excellent along with a fantastic sunset view."
+                  ],
+                  [
+                        "Venue site",
+                        "Fairfield County's premier waterfront dining destination with Mediterranean-inspired cuisine and harbor views."
+                  ]
+            ],
+            "tags": [
+                  "Sunset dinners",
+                  "Outdoor patio",
+                  "Dockside access"
+            ]
+      },
+      {
+            "name": "Sono Seaport Seafood",
+            "town": "Norwalk",
+            "area": "South Norwalk Harbor",
+            "price": "$$",
+            "rating": 4.0,
+            "reviews": 622,
+            "vibe": [
+                  "casual",
+                  "family"
+            ],
+            "cuisine": [
+                  "seafood"
+            ],
+            "summary": "A classic summer seafood place with picnic-table energy and direct harbor atmosphere.",
+            "address": "100 Water St, Norwalk, CT",
+            "hours": "Seasonal emphasis",
+            "sourceUrl": "http://www.sonoseaportseafood.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/349c3c35dcd41bff3a5d4181a7ae09564ed0c5c5.jpg",
+            "alt": "Waterfront deck at Sono Seaport Seafood in Norwalk.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Delicious food, great view and atmosphere and friendly service."
+                  ]
+            ],
+            "tags": [
+                  "Picnic tables",
+                  "Harbor views",
+                  "Summer feel"
+            ]
+      },
+      {
+            "name": "Black Duck Cafe",
+            "town": "Westport",
+            "area": "Saugatuck River",
+            "price": "$$",
+            "rating": 4.2,
+            "reviews": 946,
+            "vibe": [
+                  "casual",
+                  "lively"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "tavern"
+            ],
+            "summary": "Historic barge setting on the river; more about atmosphere and local character than fine dining polish.",
+            "address": "605 Riverside Ave, Westport, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://www.blackduckwestport.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/414754dbb7ef639382a51434f2b9b4bb4f94ecb1.jpg",
+            "alt": "Exterior of Black Duck Cafe in Westport by the water.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great service, fun atmosphere, beautiful view of the Saugatuck River."
+                  ]
+            ],
+            "tags": [
+                  "Historic barge",
+                  "Riverfront",
+                  "Live music"
+            ]
+      },
+      {
+            "name": "Rive Bistro",
+            "town": "Westport",
+            "area": "Riverside / Saugatuck",
+            "price": "$$$",
+            "rating": 4.5,
+            "reviews": 476,
+            "vibe": [
+                  "romantic",
+                  "upscale"
+            ],
+            "cuisine": [
+                  "french"
+            ],
+            "summary": "A more intimate and refined riverfront option, appealing for quieter meals and date-night dining.",
+            "address": "299 Riverside Ave, Westport, CT",
+            "hours": "Lunch, dinner, brunch",
+            "sourceUrl": "http://rivebistro.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/8736bbd70ec4f9885fc3d6a57506d1ffaa6a53ee.jpg",
+            "alt": "Bright riverfront dining room at Rive Bistro in Westport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "The food was delicious and the atmosphere was quaint by the river."
+                  ]
+            ],
+            "tags": [
+                  "French bistro",
+                  "Date night",
+                  "Riverfront"
+            ]
+      },
+      {
+            "name": "The Whelk",
+            "town": "Westport",
+            "area": "Saugatuck River",
+            "price": "$$$",
+            "rating": 4.5,
+            "reviews": 370,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "oyster bar"
+            ],
+            "summary": "One of the stronger seafood-led choices in the corridor, with a more serious culinary reputation than many view-first spots.",
+            "address": "575 Riverside Ave, Westport, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "http://www.thewhelkwestport.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ffad96dde8127f579f54629fa428a44f0cc74b50.jpg",
+            "alt": "Exterior of The Whelk in Westport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great lunch spot with great ambiance and delicious seafood."
+                  ]
+            ],
+            "tags": [
+                  "Seafood focus",
+                  "Oysters",
+                  "Upscale"
+            ]
+      },
+      {
+            "name": "The Boathouse at Saugatuck",
+            "town": "Westport",
+            "area": "Saugatuck River",
+            "price": "$$$",
+            "rating": 4.4,
+            "reviews": 173,
+            "vibe": [
+                  "romantic",
+                  "upscale"
+            ],
+            "cuisine": [
+                  "new american",
+                  "seafood"
+            ],
+            "summary": "A rowing-club setting with balcony river views and a lower-key, polished atmosphere.",
+            "address": "521 Riverside Ave, Westport, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://www.boathouseatsaugatuck.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/a70e4ffa412675cf99368489fed980653b4b5945.jpg",
+            "alt": "Outdoor dining area at The Boathouse at Saugatuck in Westport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Beautiful views, friendly staff and great food."
+                  ]
+            ],
+            "tags": [
+                  "Balcony views",
+                  "Quiet-ish",
+                  "Riverfront"
+            ]
+      },
+      {
+            "name": "Boca Oyster Bar",
+            "town": "Bridgeport",
+            "area": "Steelpointe Harbor",
+            "price": "$$$",
+            "rating": 4.1,
+            "reviews": 1435,
+            "vibe": [
+                  "upscale",
+                  "lively"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "oyster bar"
+            ],
+            "summary": "A stylish marina-side seafood restaurant that balances strong views with a social scene.",
+            "address": "10 E Main St, Bridgeport, CT",
+            "hours": "Daily",
+            "sourceUrl": "http://www.bocaoysterbar.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/c77fc7f5ed3c3796dc7c93495b69ec8262d6167f.jpg",
+            "alt": "Waterfront dining pavilion at Boca Oyster Bar in Bridgeport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Easy to dock a boat, good service and delicious dining."
+                  ],
+                  [
+                        "Dock-and-dine guide",
+                        "Enjoy expansive water views while you brunch, lunch and dine at this Steelpointe Harbor eatery."
+                  ]
+            ],
+            "tags": [
+                  "Oyster bar",
+                  "Marina",
+                  "Outdoor seating"
+            ]
+      },
+      {
+            "name": "Captain's Cove Seaport",
+            "town": "Bridgeport",
+            "area": "Black Rock",
+            "price": "$$",
+            "rating": 4.4,
+            "reviews": 2325,
+            "vibe": [
+                  "casual",
+                  "lively",
+                  "family"
+            ],
+            "cuisine": [
+                  "marina bar",
+                  "mixed"
+            ],
+            "summary": "Big deck, marina, and event energy; excellent for a casual water setting, not for a quiet meal.",
+            "address": "1 Bostwick Ave, Bridgeport, CT",
+            "hours": "Daily",
+            "sourceUrl": "http://www.captainscoveseaport.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/20f4d11e3dda7149dc05281b2bdba22a8873a0b4.jpg",
+            "alt": "Crowded outdoor waterfront scene at Captain's Cove Seaport in Bridgeport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Good menu, drinks and great views from the outdoor seating."
+                  ]
+            ],
+            "tags": [
+                  "Big outdoor deck",
+                  "Marina",
+                  "Casual"
+            ]
+      },
+      {
+            "name": "Joey C's Boathouse",
+            "town": "Stratford",
+            "area": "Housatonic River",
+            "price": "$$",
+            "rating": 4.0,
+            "reviews": 1867,
+            "vibe": [
+                  "casual",
+                  "lively",
+                  "family"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "bar and grill"
+            ],
+            "summary": "Busy dockside patio restaurant with broad appeal and a live-music, group-friendly energy.",
+            "address": "955 Ferry Blvd, Stratford, CT",
+            "hours": "Daily",
+            "sourceUrl": "https://joeycsboathouse.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/eee80bad92f65e8ed73280c24c75604f49d39b87.jpg",
+            "alt": "Interior of Joey C's Boathouse in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great view of the water, our waitress was phenomenal."
+                  ]
+            ],
+            "tags": [
+                  "Dockside patio",
+                  "Live music",
+                  "Family friendly"
+            ]
+      },
+      {
+            "name": "Riverview Bistro",
+            "town": "Stratford",
+            "area": "Housatonic River",
+            "price": "$$",
+            "rating": 4.3,
+            "reviews": 1149,
+            "vibe": [
+                  "family",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "steak",
+                  "seafood",
+                  "pasta"
+            ],
+            "summary": "Riverside setting with more of a mainstream American dining-room menu than a seafood-house identity.",
+            "address": "946 Ferry Blvd, Stratford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "http://www.riverviewstratford.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/e85f0c48d2cf632fda7ff8d5efcaf1dedf566684.jpg",
+            "alt": "Exterior of Riverview Bistro in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Attentive staff, amazing food, beautiful view."
+                  ]
+            ],
+            "tags": [
+                  "River views",
+                  "Outdoor seating",
+                  "Easy group choice"
+            ]
+      },
+      {
+            "name": "Riley's by The Seawall",
+            "town": "Stratford",
+            "area": "Short Beach / seawall",
+            "price": "$$",
+            "rating": 4.3,
+            "reviews": 521,
+            "vibe": [
+                  "casual",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood"
+            ],
+            "summary": "Right by the water with stronger beach-and-view appeal than many inland-adjacent river spots.",
+            "address": "14 Beach Dr, Stratford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://www.rileysbythesea.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/182db5c619edb8736387963c43dec8b0f26fd2fa.jpg",
+            "alt": "Interior dining view at Riley's by The Seawall in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great food, outstanding service, wonderful atmosphere and views."
+                  ],
+                  [
+                        "Reddit thread",
+                        "Decent Stratford waterfront choice with good views."
+                  ]
+            ],
+            "tags": [
+                  "Beachfront feel",
+                  "Seafood",
+                  "View-forward"
+            ]
+      },
+      {
+            "name": "Outriggers Restaurant",
+            "town": "Stratford",
+            "area": "Safe Harbor Marina",
+            "price": "$$",
+            "rating": 4.0,
+            "reviews": 661,
+            "vibe": [
+                  "casual",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "american"
+            ],
+            "summary": "Marina-based seafood option with a deck and a bit more of a scenic dining feel than a tavern feel.",
+            "address": "555 Broad St, Stratford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://www.outriggersrestaurant.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/9b938b3cd050d85a15a477136c5cf87cc713c947.jpg",
+            "alt": "Banquet-style dining room at Outriggers Restaurant in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Very nice place, beautiful views and good food and service."
+                  ],
+                  [
+                        "Dock-and-dine guide",
+                        "Perched on the Housatonic River with raw bar items and harbor views."
+                  ]
+            ],
+            "tags": [
+                  "Marina deck",
+                  "Raw bar",
+                  "River views"
+            ]
+      },
+      {
+            "name": "The Landing at Five Twenty",
+            "town": "Stratford",
+            "area": "Sniffens Lane",
+            "price": "$$",
+            "rating": 4.3,
+            "reviews": 175,
+            "vibe": [
+                  "casual",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "american",
+                  "seafood"
+            ],
+            "summary": "Smaller waterside option with oysters and lobster rolls, useful for a lower-key alternative in Stratford.",
+            "address": "520 Sniffens Ln, Stratford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://thelandingatfivetwenty.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/1956b829ef48b4d4ea8e6cead7069656b71955c6.jpg",
+            "alt": "Outdoor waterfront patio at The Landing at Five Twenty in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Wonderful location, food is great, excellent service and management."
+                  ]
+            ],
+            "tags": [
+                  "Waterside deck",
+                  "Oysters",
+                  "Lobster roll"
+            ]
+      },
+      {
+            "name": "Stonebridge Restaurant",
+            "town": "Milford",
+            "area": "Milford Harbor / river crossing",
+            "price": "$$$",
+            "rating": 4.4,
+            "reviews": 1790,
+            "vibe": [
+                  "upscale",
+                  "romantic",
+                  "family"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "american"
+            ],
+            "summary": "Longstanding Milford classic with broad appeal, substantial seafood credibility, and a reliably scenic setting.",
+            "address": "50 Daniel St, Milford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "http://www.stonebridgerestaurant.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/c6cc7fbdd6442fd4999e146d25d5712cf70398f1.jpg",
+            "alt": "Warmly lit dining room at Stonebridge Restaurant in Milford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Fun and beautiful atmosphere, great food, location and service."
+                  ],
+                  [
+                        "CT waterfront guide",
+                        "Known locally as the Bridge, it grew from a fresh fish market into a full-service upscale restaurant."
+                  ]
+            ],
+            "tags": [
+                  "Milford staple",
+                  "Seafood focus",
+                  "Reservations useful"
+            ]
+      },
+      {
+            "name": "Dockside Brewery",
+            "town": "Milford",
+            "area": "Harbor / riverfront",
+            "price": "$$",
+            "rating": 4.4,
+            "reviews": 1209,
+            "vibe": [
+                  "casual",
+                  "lively",
+                  "family"
+            ],
+            "cuisine": [
+                  "brewpub",
+                  "seafood"
+            ],
+            "summary": "Good for a social, energetic meal by the water; less refined than Stonebridge but more relaxed and beer-driven.",
+            "address": "40 Bridgeport Ave, Milford, CT",
+            "hours": "Daily",
+            "sourceUrl": "https://www.docksidebrewery.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/16fb11baf689040bc0186e9f27b760f80a70d1c3.jpg",
+            "alt": "Outdoor patio at Dockside Brewery in Milford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great food and beverages, awesome vibes on the water."
+                  ]
+            ],
+            "tags": [
+                  "Brewery",
+                  "Outdoor seating",
+                  "Social atmosphere"
+            ]
+      },
+      {
+            "name": "Oak Beach Bar + Grill",
+            "town": "West Haven",
+            "area": "Captain Thomas Blvd",
+            "price": "$$",
+            "rating": 4.9,
+            "reviews": 222,
+            "vibe": [
+                  "casual",
+                  "family"
+            ],
+            "cuisine": [
+                  "american"
+            ],
+            "summary": "A newer and very beach-adjacent casual option best for shoreline atmosphere and easy meals.",
+            "address": "291 Captain Thomas Blvd, West Haven, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "http://oakbeachbargrill.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/1b41a512e15ed676fa4df60735a5efc32bd232f6.jpg",
+            "alt": "Exterior of Oak Beach Bar and Grill in West Haven.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "The restaurant is beautiful and right down by the beach."
+                  ]
+            ],
+            "tags": [
+                  "Beachfront",
+                  "Casual",
+                  "Good for groups"
+            ]
+      },
+      {
+            "name": "Shell & Bones Oyster Bar and Grill",
+            "town": "New Haven",
+            "area": "City Point / harbor",
+            "price": "$$$$",
+            "rating": 4.5,
+            "reviews": 3168,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "oyster bar",
+                  "steak"
+            ],
+            "summary": "The marquee New Haven harbor restaurant, pairing strong seafood execution with one of the best direct-over-water settings in the region.",
+            "address": "100 S Water St, New Haven, CT",
+            "hours": "Daily lunch and dinner",
+            "sourceUrl": "http://www.shellandbones.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/34491c1d14de4491658a0c1806e77b7c97523d1b.jpg",
+            "alt": "Aerial view of Shell and Bones on the New Haven waterfront.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Awesome vibe, great food, and phenomenal views of the water."
+                  ],
+                  [
+                        "CT waterfront guide",
+                        "Features year-round indoor and outdoor waterfront dining directly over the water."
+                  ],
+                  [
+                        "Reddit thread",
+                        "Good though a bit pricey; the view is great, right out into the Sound."
+                  ]
+            ],
+            "tags": [
+                  "Destination dining",
+                  "Direct harbor views",
+                  "Seafood focus"
+            ]
+      },
+      {
+            "name": "IL Gabbiano",
+            "town": "New Haven",
+            "area": "Long Wharf",
+            "price": "$$$",
+            "rating": 4.2,
+            "reviews": 877,
+            "vibe": [
+                  "upscale",
+                  "family"
+            ],
+            "cuisine": [
+                  "italian"
+            ],
+            "summary": "An Italian waterfront option on Long Wharf that offers a broader menu for groups that do not want a seafood-only meal.",
+            "address": "501 Long Wharf Dr, New Haven, CT",
+            "hours": "Daily",
+            "sourceUrl": "https://ilgabbianonewhaven.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/08891fd9ec0ec7d4269d71a183ac7e0b75001310.jpg",
+            "alt": "Interior bar and dining room at IL Gabbiano in New Haven.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Delicious food, fun atmosphere, and a professional, attentive staff."
+                  ]
+            ],
+            "tags": [
+                  "Italian",
+                  "Water views",
+                  "Group-friendly"
+            ]
+      },
+      {
+            "name": "Fair Haven Oyster Co.",
+            "town": "New Haven",
+            "area": "Fair Haven / Quinnipiac River",
+            "price": "$$$$",
+            "rating": 4.7,
+            "reviews": 205,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "oyster bar",
+                  "seafood"
+            ],
+            "summary": "Smaller, more intimate seafood destination with a refined tone and strong appeal for oyster-focused diners.",
+            "address": "307 Front St, New Haven, CT",
+            "hours": "Dinner-focused",
+            "sourceUrl": "https://www.fairhavenoysterco.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/fac0e7a3bf2f2487a06b5e87981633ee039ef6ac.jpg",
+            "alt": "Waterfront deck at Fair Haven Oyster Co. in New Haven.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Cozy vibe, a beautiful setting at the river, and excellent service."
+                  ],
+                  [
+                        "Dock-and-dine guide",
+                        "An elevated seafood bar with expansive waterfront views and a large deck."
+                  ]
+            ],
+            "tags": [
+                  "Intimate",
+                  "Oysters",
+                  "Refined"
+            ]
+      }
+];
 
     const search = document.getElementById('search');
     const town = document.getElementById('town');
@@ -330,7 +1147,8 @@
       `).join('');
     }
 
-    [search,town,price,vibe].forEach(el => el.addEventListener('input', render));
+    search.addEventListener('input', render);
+    [town,price,vibe].forEach(el => el.addEventListener('change', render));
     render();
 
     (function(){
