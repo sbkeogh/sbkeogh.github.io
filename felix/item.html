@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Felix capability | Keogh.ai</title>
+  <meta name="description" content="Detail for a Felix capability — what it does, how to launch it, and how it works." />
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#detail">Skip to content</a>
+
+  <header class="site-head">
+    <div class="container nav">
+      <a class="brand" href="./">
+        <img src="assets/logo-head.png" alt="Felix mascot" />
+        <span class="brand-wordmark">
+          <span class="wm">Felix</span>
+          <span class="sub">Capabilities Guide</span>
+        </span>
+      </a>
+      <div class="nav-right">
+        <a href="https://keogh.ai">keogh.ai</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="topnav" aria-label="Browse by type">
+    <div class="container topnav-inner">
+      <a class="navlink" href="./">Everything</a>
+      <a class="navlink" href="index.html?kind=command">Commands</a>
+      <a class="navlink" href="index.html?kind=skill">Skills</a>
+      <a class="navlink" href="index.html?kind=automation">Automation</a>
+      <a class="navlink" href="index.html?kind=integration">Integrations</a>
+    </div>
+  </nav>
+
+  <main class="container" id="detail"></main>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-tag">
+        “We do the human work. Felix handles the rest.”
+        <span class="by">— Keogh.Law</span>
+      </p>
+      <img class="footer-cat" src="assets/footer-cat.png" alt="" aria-hidden="true" />
+      <p class="footer-disclaimer">
+        <strong>Felix is an internal practice-management system built for Keogh.Law's own use — not a product or service
+        offered for sale or license.</strong> This directory is an internal system manual, published for reference only.
+        Nothing here is intended to infringe any copyright or trademark; all third-party names, marks, and characters are
+        the property of their respective owners. Felix is software infrastructure, not a law firm and not a lawyer —
+        legal services are provided by <strong>Attorney Stephen B. Keogh / Keogh.Law</strong> (34 Wall Street, Norwalk,
+        CT 06850 · CT Juris No. 303927). It does not give legal advice or create an attorney–client relationship, and
+        this guide describes system capabilities in general terms and contains no client information.
+      </p>
+      <p class="footer-meta">© <span id="year"></span> Keogh.Law · Felix Capabilities Guide</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script>
+    const { categories: CATEGORIES, items: ITEMS } = window.FELIX;
+    const KIND_LABEL = { command:"Command", skill:"Skill", automation:"Automation", integration:"Integration" };
+    const VIGNETTE = { cadence:"vig-calendar", recordings:"vig-calendar", billing:"vig-clock", cases:"vig-matter",
+      drafting:"vig-filing", filings:"vig-filing", research:"vig-matter", elderlaw:"vig-reports",
+      slash:"bag-of-tricks", automation:"vig-automation", integrations:"logo-head" };
+    const detail = document.getElementById("detail");
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+
+    const id = new URLSearchParams(location.search).get("id");
+    const it = ITEMS.find(x => x.id === id);
+    const cat = it && CATEGORIES.find(c => c.id === it.cat);
+
+    function copyBtn(text, label, big){
+      return `<button class="copy-btn${big ? "" : " copy-btn-sm"}" data-copy="${esc(text)}"><span class="cb-label">${label || "Copy"}</span></button>`;
+    }
+
+    if(!it){
+      detail.innerHTML = `<div class="empty" style="padding:6rem 0">
+        <p>That capability wasn't found.</p>
+        <p style="margin-top:1rem"><a class="card-more" href="./">← Back to all capabilities</a></p></div>`;
+    } else {
+      const sib = ITEMS.filter(x => x.cat === it.cat);
+      const idx = sib.findIndex(x => x.id === it.id);
+      const prev = sib[idx - 1], next = sib[idx + 1];
+      const vig = VIGNETTE[it.cat];
+
+      const launch = it.command
+        ? `<div class="launch">
+             <div class="launch-label">${esc(it.invoke)}</div>
+             <div class="launch-row">
+               <div class="launch-cmd">${esc(it.command)}</div>
+               ${copyBtn(it.command, "Copy command", true)}
+             </div>
+             <p class="launch-hint">Paste this to Felix in Claude Code or the desktop app to launch <strong>${esc(it.name)}</strong>. Replace anything in [brackets] with your specifics.</p>
+           </div>`
+        : `<div class="launch no-cmd">
+             <div class="launch-label">How Felix uses this</div>
+             <p style="margin:0;color:var(--ink-soft)">${esc(it.invoke)}. ${it.examples && it.examples.length ? "Try one of the example phrasings below." : "It works behind the scenes when a task needs it."}</p>
+           </div>`;
+
+      const steps = it.steps ? `<section class="dsection"><h2>How it works</h2>
+        <ol class="steps">${it.steps.map(s => `<li><span>${esc(s)}</span></li>`).join("")}</ol></section>` : "";
+      const contents = it.contents ? `<section class="dsection"><h2>What's in it</h2>
+        <dl class="contents">${it.contents.map(c => `<div class="content-row"><dt>${esc(c.label)}</dt><dd>${esc(c.desc)}</dd></div>`).join("")}</dl></section>` : "";
+      const examples = it.examples ? `<section class="dsection"><h2>Example phrasings</h2>
+        <div class="examples">${it.examples.map(e => `<div class="example"><code>${esc(e)}</code>${copyBtn(e, "Copy")}</div>`).join("")}</div></section>` : "";
+      const notes = it.notes ? `<section class="dsection"><h2>Good to know</h2>
+        <div class="notes">${it.notes.map(n => `<div class="note"><span>${esc(n)}</span></div>`).join("")}</div></section>` : "";
+
+      const related = (it.related || []).map(rid => ITEMS.find(x => x.id === rid)).filter(Boolean);
+      const relatedBlock = related.length ? `<section class="related-wrap"><h2>Related</h2>
+        <div class="related-grid">${related.map(r => `<a class="related-card" href="item.html?id=${encodeURIComponent(r.id)}">
+          <strong>${esc(r.name)}</strong><span>${KIND_LABEL[r.kind]}</span></a>`).join("")}</div></section>` : "";
+
+      const nav = `<nav class="detail-nav">
+        ${prev ? `<a href="item.html?id=${encodeURIComponent(prev.id)}">← Previous<strong>${esc(prev.name)}</strong></a>` : "<span></span>"}
+        ${next ? `<a href="item.html?id=${encodeURIComponent(next.id)}" style="text-align:right">Next →<strong>${esc(next.name)}</strong></a>` : "<span></span>"}
+      </nav>`;
+
+      document.title = `${it.name} — Felix | Keogh.ai`;
+
+      detail.innerHTML = `
+        <nav class="breadcrumb">
+          <a href="./">All capabilities</a><span class="sep">›</span>
+          <a href="./#${esc(it.cat)}">${esc(cat ? cat.name : "")}</a><span class="sep">›</span>
+          <span>${esc(it.name)}</span>
+        </nav>
+
+        <section class="detail-hero">
+          ${vig ? `<img class="vignette" src="assets/${vig}.png" alt="" aria-hidden="true" />` : ""}
+          <div class="detail-kicker">
+            <span class="badge badge-${it.kind}">${KIND_LABEL[it.kind]}</span>
+            <span class="detail-cat">${esc(cat ? cat.name : "")}</span>
+          </div>
+          <h1>${esc(it.name)}</h1>
+          <p class="detail-lede">${esc(it.detail || it.blurb)}</p>
+          ${launch}
+        </section>
+
+        <div class="detail-body">
+          ${steps}
+          ${contents}
+          ${examples}
+          ${notes}
+        </div>
+
+        ${relatedBlock}
+        ${nav}`;
+
+      scatterDetail(it.cat, id);
+    }
+
+    function hashStr(s){ let h=0; for(let i=0;i<String(s).length;i++) h=(h*31 + String(s).charCodeAt(i))>>>0; return h; }
+    function dimg(cls, sprite){
+      const im=document.createElement("img");
+      im.src=`assets/poses/${sprite}.png`; im.alt=""; im.setAttribute("aria-hidden","true");
+      im.className=cls; return im;
+    }
+    function scatterDetail(cat, key){
+      const POSES=["pose-pointing","pose-idea","pose-success","pose-thumbsup","pose-scales","pose-celebrate","pose-welcome","pose-thinking","pose-done","el-musiccat","el-sitting","el-run1","el-run2"];
+      const MINI=["el-paws","el-star","el-sparkle","el-note","el-exclq"];
+      const MINW={ "el-paws":48,"el-star":34,"el-sparkle":40,"el-note":30,"el-exclq":34 };
+      const ROT=[-9,7,-6,10,-5,8,-11,6,-7,9,-8,5];
+      const h=hashStr(key||cat||"felix");
+      const pick=(arr,n)=>arr[(h>>>(n*3))%arr.length];
+      const root=document.getElementById("detail");
+
+      let w=98+(h%4)*12;
+      let g=dimg("deco deco-gut left", pick(POSES,0));
+      g.style.width=w+"px"; g.style.left=-(w+8)+"px"; g.style.top=(118+(h%5)*34)+"px";
+      g.style.transform=`rotate(${ROT[h%ROT.length]}deg)`; root.appendChild(g);
+
+      w=98+((h>>>2)%4)*12;
+      g=dimg("deco deco-gut right", pick(POSES,1));
+      g.style.width=w+"px"; g.style.right=-(w+8)+"px"; g.style.top=(380+(h%6)*40)+"px";
+      g.style.transform=`rotate(${ROT[(h>>>1)%ROT.length]}deg)`; root.appendChild(g);
+
+      const body=document.querySelector(".detail-body");
+      if(body){
+        const bh=body.offsetHeight;
+        const placeCol=(sprite,wv,frac,rotn)=>{
+          const figH=wv*1.15;
+          if(bh < figH+16) return;
+          let top=Math.round(bh*frac);
+          if(top+figH > bh) top=Math.max(8, bh-figH-8);
+          const c=dimg("deco deco-col", sprite);
+          c.style.width=wv+"px"; c.style.right=-(wv+26)+"px"; c.style.top=top+"px";
+          c.style.transform=`rotate(${rotn}deg)`; body.appendChild(c);
+        };
+        placeCol(pick(POSES,2), 112+((h>>>4)%4)*12, 0.10, ROT[(h>>>2)%ROT.length]);
+        if(bh>440) placeCol(pick(POSES,3), 100+((h>>>6)%4)*12, 0.62, ROT[(h>>>3)%ROT.length]);
+      }
+
+      document.querySelectorAll(".dsection h2, .related-wrap h2").forEach((hd,idx)=>{
+        hd.style.position="relative";
+        const m=MINI[(h+idx)%MINI.length];
+        const mi=dimg("deco deco-mini", m);
+        mi.style.width=MINW[m]+"px"; mi.style.top="-12px"; mi.style.right="6px";
+        mi.style.transform=`rotate(${ROT[(h+idx)%ROT.length]}deg)`;
+        hd.appendChild(mi);
+      });
+
+      const hero=document.querySelector(".detail-hero");
+      if(hero){
+        const sp=dimg("deco deco-hero", "el-sparkle");
+        sp.style.width="40px"; sp.style.bottom="118px"; sp.style.left="-46px"; sp.style.transform="rotate(-8deg)";
+        hero.appendChild(sp);
+      }
+    }
+
+    detail.addEventListener("click", async e => {
+      const btn = e.target.closest(".copy-btn");
+      if(!btn) return;
+      const text = btn.getAttribute("data-copy");
+      try { await navigator.clipboard.writeText(text); }
+      catch(_) {
+        const ta = document.createElement("textarea");
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); } catch(__) {}
+        ta.remove();
+      }
+      const label = btn.querySelector(".cb-label");
+      const original = label ? label.textContent : null;
+      btn.classList.add("copied");
+      if(label) label.textContent = "Copied ✓";
+      setTimeout(() => { btn.classList.remove("copied"); if(label) label.textContent = original; }, 1600);
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

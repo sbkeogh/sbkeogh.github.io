@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Felix — Capabilities Guide | Keogh.ai</title>
+  <meta name="description" content="A navigable manual for Felix, the integrated practice-management system for Keogh.Law — every command, skill, automation, and integration in one searchable place." />
+  <meta name="robots" content="index,follow" />
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#catalog">Skip to catalog</a>
+
+  <header class="site-head">
+    <div class="container nav">
+      <a class="brand" href="./">
+        <img src="assets/logo-head.png" alt="Felix mascot" />
+        <span class="brand-wordmark">
+          <span class="wm">Felix</span>
+          <span class="sub">Capabilities Guide</span>
+        </span>
+      </a>
+      <div class="nav-right">
+        <a href="https://keogh.ai">keogh.ai</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="topnav" aria-label="Filter by type">
+    <div class="container topnav-inner" id="kinds">
+      <button class="navlink" data-kind="all" aria-pressed="true">Everything</button>
+      <button class="navlink" data-kind="command" aria-pressed="false">Commands</button>
+      <button class="navlink" data-kind="skill" aria-pressed="false">Skills</button>
+      <button class="navlink" data-kind="automation" aria-pressed="false">Automation</button>
+      <button class="navlink" data-kind="integration" aria-pressed="false">Integrations</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Practice-management system · Keogh.Law</span>
+          <h1>We do the human work.<br><span class="gold">Felix</span> handles the rest.</h1>
+          <p>
+            Felix is the integrated practice-management system behind Keogh.Law — a coordination layer reaching into
+            calendar, email, billing, tasks, transcription, the knowledge base, and the Connecticut probate &amp; Medicaid
+            systems. This is the living manual of everything it can do. Search or filter below, then open any item for the
+            full detail and a one-tap way to copy the command that launches it.
+          </p>
+          <div class="hero-rule"></div>
+        </div>
+        <div class="hero-art">
+          <img class="reclining" src="assets/hero.png" alt="Felix the practice-management mascot, reclining" />
+        </div>
+      </div>
+      <div class="container">
+        <div class="stat-grid">
+          <div class="stat"><strong id="statCommands">—</strong><span>Conversational commands</span></div>
+          <div class="stat"><strong id="statSkills">—</strong><span>Legal &amp; workflow skills</span></div>
+          <div class="stat"><strong id="statAutomation">—</strong><span>Always-on automations</span></div>
+          <div class="stat"><strong id="statIntegration">—</strong><span>Connected systems</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="featurestrip">
+      <div class="container features">
+        <a class="feature" href="#cases">
+          <img src="assets/vig-matter.png" alt="" aria-hidden="true" />
+          <span class="flabel">Matters</span>
+          <p>Every detail organized and at your fingertips.</p>
+        </a>
+        <a class="feature" href="#cadence">
+          <img src="assets/vig-calendar.png" alt="" aria-hidden="true" />
+          <span class="flabel">Calendar &amp; Deadlines</span>
+          <p>Never miss a date. Stay on top of every deadline.</p>
+        </a>
+        <a class="feature" href="#billing">
+          <img src="assets/vig-clock.png" alt="" aria-hidden="true" />
+          <span class="flabel">Time &amp; Billing</span>
+          <p>Track time easily. Bill accurately. Get paid faster.</p>
+        </a>
+        <a class="feature" href="#filings">
+          <img src="assets/vig-filing.png" alt="" aria-hidden="true" />
+          <span class="flabel">Filings &amp; Docs</span>
+          <p>Court-ready paperwork, prepared and filed.</p>
+        </a>
+        <a class="feature" href="#automation">
+          <img src="assets/vig-automation.png" alt="" aria-hidden="true" />
+          <span class="flabel">Automation</span>
+          <p>Work that runs itself, behind the scenes.</p>
+        </a>
+      </div>
+    </section>
+
+    <div class="controls">
+      <div class="container">
+        <div class="search-row">
+          <input id="search" class="search" type="search" placeholder="Search capabilities — e.g. “billing”, “conflict”, “Medicaid”, “deadline”…" aria-label="Search capabilities" />
+        </div>
+        <div class="meta-row" id="metaRow"></div>
+      </div>
+    </div>
+
+    <div class="container" id="catalog"></div>
+    <div class="container empty hidden" id="emptyState">No capabilities match your search. Try a broader term.</div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-tag">
+        “We do the human work. Felix handles the rest.”
+        <span class="by">— Keogh.Law</span>
+      </p>
+      <img class="footer-cat" src="assets/footer-cat.png" alt="" aria-hidden="true" />
+      <p class="footer-disclaimer">
+        <strong>Felix is an internal practice-management system built for Keogh.Law's own use — not a product or service
+        offered for sale or license.</strong> This directory is an internal system manual, published for reference only.
+        Nothing here is intended to infringe any copyright or trademark; all third-party names, marks, and characters are
+        the property of their respective owners. Felix is software infrastructure, not a law firm and not a lawyer —
+        legal services are provided by <strong>Attorney Stephen B. Keogh / Keogh.Law</strong> (34 Wall Street, Norwalk,
+        CT 06850 · CT Juris No. 303927). It does not give legal advice or create an attorney–client relationship, and
+        this guide describes system capabilities in general terms and contains no client information.
+      </p>
+      <p class="footer-meta">© <span id="year"></span> Keogh.Law · Felix Capabilities Guide</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script>
+    const { categories: CATEGORIES, items: ITEMS } = window.FELIX;
+    const KIND_LABEL = { command:"Command", skill:"Skill", automation:"Automation", integration:"Integration" };
+    const catalog = document.getElementById("catalog");
+    const search = document.getElementById("search");
+    const metaRow = document.getElementById("metaRow");
+    const emptyState = document.getElementById("emptyState");
+    let activeKind = "all";
+
+    function cardHTML(it){
+      return `<a class="card" data-kind="${it.kind}" data-text="${(it.name+' '+it.trigger+' '+it.blurb).toLowerCase().replace(/"/g,'')}" href="item.html?id=${encodeURIComponent(it.id)}">
+        <div class="card-top">
+          <h3>${it.name}</h3>
+          <span class="badge badge-${it.kind}">${KIND_LABEL[it.kind]}</span>
+        </div>
+        <code class="trigger">${it.trigger}</code>
+        <p class="blurb">${it.blurb}</p>
+        <div class="card-foot"><span class="card-more">View &amp; copy →</span></div>
+      </a>`;
+    }
+
+    function render(){
+      catalog.innerHTML = CATEGORIES.map(c => {
+        const items = ITEMS.filter(i => i.cat === c.id);
+        if(!items.length) return "";
+        return `<section class="cat" id="${c.id}">
+          <div class="cat-head"><h2>${c.name}</h2><span class="count">${items.length} ${items.length===1?"entry":"entries"}</span></div>
+          <p class="cat-desc">${c.desc}</p>
+          <div class="grid">${items.map(cardHTML).join("")}</div>
+        </section>`;
+      }).join("");
+      applyFilter();
+    }
+
+    function applyFilter(){
+      const q = search.value.trim().toLowerCase();
+      let visible = 0;
+      document.querySelectorAll(".cat").forEach(sec => {
+        let secVisible = 0;
+        sec.querySelectorAll(".card").forEach(card => {
+          const matchKind = activeKind === "all" || card.dataset.kind === activeKind;
+          const matchText = !q || card.dataset.text.includes(q);
+          const show = matchKind && matchText;
+          card.classList.toggle("hidden", !show);
+          if(show){ secVisible++; visible++; }
+        });
+        sec.classList.toggle("hidden", secVisible === 0);
+      });
+      emptyState.classList.toggle("hidden", visible !== 0);
+      metaRow.textContent = `Showing ${visible} of ${ITEMS.length} capabilities`
+        + (q ? ` matching “${search.value.trim()}”` : "")
+        + (activeKind !== "all" ? ` · ${KIND_LABEL[activeKind]}s` : "");
+    }
+
+    function setKind(kind){
+      activeKind = kind;
+      document.querySelectorAll(".navlink").forEach(k => k.setAttribute("aria-pressed", String(k.dataset.kind === kind)));
+      applyFilter();
+    }
+
+    document.getElementById("kinds").addEventListener("click", e => {
+      const btn = e.target.closest(".navlink");
+      if(btn) setKind(btn.dataset.kind);
+    });
+    search.addEventListener("input", applyFilter);
+
+    document.getElementById("statCommands").textContent = ITEMS.filter(i => i.kind === "command").length;
+    document.getElementById("statSkills").textContent = ITEMS.filter(i => i.kind === "skill").length;
+    document.getElementById("statAutomation").textContent = ITEMS.filter(i => i.kind === "automation").length;
+    document.getElementById("statIntegration").textContent = ITEMS.filter(i => i.kind === "integration").length;
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function deco(cls, sprite){
+      const im = document.createElement("img");
+      im.src = `assets/poses/${sprite}.png`; im.alt = ""; im.setAttribute("aria-hidden", "true");
+      im.className = cls;
+      return im;
+    }
+    function scatter(){
+      const cats = [...document.querySelectorAll(".cat")];
+      const POSES = ["pose-pointing","pose-idea","pose-thumbsup","pose-scales","pose-celebrate","pose-welcome","el-musiccat","pose-success","pose-thinking","pose-done"];
+      const MINI  = ["el-paws","el-star","el-sparkle","el-note","el-exclq"];
+      const MINW  = { "el-paws":48, "el-star":34, "el-sparkle":40, "el-note":30, "el-exclq":34 };
+      const rot   = [-9,7,-6,10,-5,8,-11,6,-7,9,-8];
+      cats.forEach((sec, i) => {
+        const left = i % 2 === 0;
+        const w = 94 + (i*17) % 48;
+        const big = deco(`deco deco-gut ${left ? "left" : "right"}`, POSES[i % POSES.length]);
+        big.style.width = w + "px";
+        big.style.top = (8 + (i*41) % 140) + "px";
+        big.style[left ? "left" : "right"] = -(w + 8) + "px";   // fully clear of content; peeks from the screen edge
+        big.style.transform = `rotate(${rot[i % rot.length]}deg)`;
+        sec.appendChild(big);
+        const head = sec.querySelector(".cat-head");
+        if(head && i % 2 === 1){
+          const m = MINI[(i >> 1) % MINI.length];
+          const mini = deco("deco deco-mini", m);
+          mini.style.width = MINW[m] + "px";
+          mini.style.top = "-12px";
+          mini.style.right = (24 + (i*29) % 120) + "px";
+          mini.style.transform = `rotate(${-rot[i % rot.length]}deg)`;
+          head.appendChild(mini);
+        }
+      });
+      const hc = document.querySelector(".hero-copy");
+      if(hc){
+        const sp = deco("deco deco-hero", "el-sparkle");
+        sp.style.width = "48px"; sp.style.top = "-8px"; sp.style.right = "-8px"; sp.style.transform = "rotate(10deg)";
+        hc.appendChild(sp);
+      }
+    }
+
+    const presetKind = new URLSearchParams(location.search).get("kind");
+    render();
+    scatter();
+    if(presetKind && ["command","skill","automation","integration"].includes(presetKind)) setKind(presetKind);
+  </script>
+</body>
+</html>

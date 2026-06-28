@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keogh.ai — Connecticut Waterfront Restaurant Compendium</title>
+  <meta name="description" content="An exhaustive, unsponsored guide to waterfront restaurants between Stamford and New Haven, Connecticut, with map-based browsing, filters, and sourced review highlights." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=zodiak@400,700&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{
+      --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
+      --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
+      --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
+      --text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);
+      --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+      --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+      --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--space-20:5rem;
+      --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;--color-surface-offset:#f3f0ec;--color-border:#d4d1ca;--color-divider:#dcd9d5;
+      --color-text:#28251d;--color-text-muted:#6d6a63;--color-text-faint:#9a978f;--color-text-inverse:#f9f8f4;
+      --color-primary:#01696f;--color-primary-hover:#0c4e54;--color-primary-highlight:#cedcd8;--color-gold:#b68400;
+      --radius-sm:.375rem;--radius-md:.65rem;--radius-lg:1rem;--radius-xl:1.5rem;--radius-full:9999px;
+      --shadow-sm:0 1px 2px rgba(34,30,24,.06);--shadow-md:0 8px 24px rgba(34,30,24,.08);--shadow-lg:0 18px 50px rgba(34,30,24,.13);
+      --font-body:'General Sans',Inter,sans-serif;--font-display:'Zodiak',Georgia,serif;
+      --content-default:1100px;--content-wide:1280px;
+    }
+    [data-theme="dark"]{
+      --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;--color-surface-offset:#22201d;--color-border:#393836;--color-divider:#2b2a28;
+      --color-text:#e4e1dc;--color-text-muted:#b0aba2;--color-text-faint:#807b73;--color-text-inverse:#171614;
+      --color-primary:#56a5af;--color-primary-hover:#78bac2;--color-primary-highlight:#283739;--color-gold:#e3b23d;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.2);--shadow-md:0 8px 24px rgba(0,0,0,.3);--shadow-lg:0 18px 50px rgba(0,0,0,.45);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.6;background:var(--color-bg);color:var(--color-text)}
+    img,svg{display:block;max-width:100%;height:auto} a{color:inherit;text-decoration:none} button,input,select{font:inherit;color:inherit}
+    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+    .skip-link{position:absolute;left:-9999px;top:auto}.skip-link:focus{left:var(--space-4);top:var(--space-4);background:var(--color-primary);color:var(--color-text-inverse);padding:var(--space-3) var(--space-4);z-index:1000;border-radius:var(--radius-md)}
+    .container{width:min(calc(100% - 2rem),var(--content-default));margin-inline:auto}
+    header{position:sticky;top:0;z-index:20;background:color-mix(in oklab,var(--color-bg) 82%, transparent);backdrop-filter:blur(14px);border-bottom:1px solid color-mix(in oklab,var(--color-text) 10%, transparent)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);padding:var(--space-4) 0}
+    .brand{display:flex;align-items:center;gap:var(--space-3)}
+    .logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--color-primary-highlight),transparent),var(--color-surface-offset);display:grid;place-items:center;border:1px solid color-mix(in oklab,var(--color-primary) 18%, var(--color-border))}
+    .brand-wordmark{display:flex;flex-direction:column}.brand-wordmark strong{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase}.brand-wordmark span{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .nav-links{display:flex;gap:var(--space-4);flex-wrap:wrap}.nav-links a{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .theme-toggle{min-width:44px;min-height:44px;border-radius:var(--radius-full);border:1px solid var(--color-border);display:grid;place-items:center;background:var(--color-surface)}
+    main{padding-bottom:var(--space-20)}
+    .hero{padding:clamp(var(--space-10),8vw,var(--space-20)) 0 var(--space-12)}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--space-8);align-items:end}
+    .eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-size:var(--text-xs);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+    h1{font-family:var(--font-display);font-size:var(--text-2xl);line-height:1.03;max-width:13ch;margin-top:var(--space-4)}
+    .hero p{margin-top:var(--space-4);max-width:65ch;color:var(--color-text-muted)}
+    .hero-card,.panel,.restaurant-card,.source-card{background:var(--color-surface);border:1px solid color-mix(in oklab,var(--color-text) 10%, transparent);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm)}
+    .hero-card{padding:var(--space-6);display:grid;gap:var(--space-4)}
+    .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4)}
+    .stat{padding:var(--space-4);border-radius:var(--radius-lg);background:var(--color-surface-offset)}
+    .stat strong{display:block;font-size:var(--text-xl);font-family:var(--font-display)} .stat span{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted)}
+    .section{padding:var(--space-10) 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:var(--space-4);margin-bottom:var(--space-6)}
+    .section-head h2{font-family:var(--font-display);font-size:var(--text-xl)} .section-head p{color:var(--color-text-muted);max-width:60ch}
+    .controls{display:grid;grid-template-columns:1.2fr repeat(3,minmax(0,1fr));gap:var(--space-3);margin-bottom:var(--space-6)}
+    .field{display:grid;gap:var(--space-2)} .field label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted)}
+    .input,.select{min-height:48px;border-radius:var(--radius-lg);border:1px solid var(--color-border);background:var(--color-surface-2);padding:0 var(--space-4)}
+    .results-meta{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);margin-bottom:var(--space-4);color:var(--color-text-muted);font-size:var(--text-sm)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5)}
+    .restaurant-card{padding:0;overflow:hidden;display:grid;gap:0;content-visibility:auto;contain-intrinsic-size:850px}
+    .card-media{aspect-ratio:16/9;overflow:hidden;background:var(--color-surface-offset)}
+    .card-media img{width:100%;height:100%;object-fit:cover}
+    .card-body{padding:var(--space-5);display:grid;gap:var(--space-4)}
+    .card-top{display:flex;justify-content:space-between;gap:var(--space-4);align-items:start}
+    .title-block h3{font-size:var(--text-lg);line-height:1.2}.title-block p{color:var(--color-text-muted);font-size:var(--text-sm);margin-top:var(--space-1)}
+    .rating{padding:var(--space-2) var(--space-3);border-radius:var(--radius-full);background:var(--color-surface-offset);font-size:var(--text-sm);white-space:nowrap}
+    .chips{display:flex;flex-wrap:wrap;gap:var(--space-2)} .chip{padding:.35rem .65rem;border-radius:var(--radius-full);font-size:var(--text-xs);background:var(--color-surface-offset);color:var(--color-text-muted);border:1px solid color-mix(in oklab,var(--color-text) 8%, transparent)}
+    .summary{color:var(--color-text-muted)} .review-list{display:grid;gap:var(--space-3)}
+    .quote{padding:var(--space-4);border-radius:var(--radius-lg);background:var(--color-surface-offset);border:1px solid color-mix(in oklab,var(--color-text) 8%, transparent)}
+    .quote strong{display:block;font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:var(--space-2)}
+    .quote p{font-size:var(--text-sm)}
+    .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-3);font-size:var(--text-sm)}
+    .fact{padding:var(--space-3);border-top:1px solid var(--color-divider)} .fact span{display:block;color:var(--color-text-muted);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em}
+    .buttons{display:flex;gap:var(--space-3);flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 var(--space-4);border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;border:1px solid var(--color-border);background:var(--color-surface-2)}
+    .btn-primary{background:var(--color-primary);border-color:var(--color-primary);color:var(--color-text-inverse)} .btn-primary:hover{background:var(--color-primary-hover)}
+    .btn:hover{border-color:var(--color-primary);color:var(--color-primary)}
+    .panel{padding:var(--space-6)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5)}
+    .source-list{display:grid;gap:var(--space-4)} .source-card{padding:var(--space-4)} .source-card a{color:var(--color-primary);font-weight:600}
+    footer{padding:var(--space-10) 0;border-top:1px solid var(--color-divider);color:var(--color-text-muted)}
+    .empty{padding:var(--space-8);border:1px dashed var(--color-border);border-radius:var(--radius-xl);text-align:center;color:var(--color-text-muted);background:var(--color-surface)}
+    @media (max-width: 980px){.hero-grid,.two-col,.controls,.grid{grid-template-columns:1fr}.nav-links{display:none}.facts,.stat-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width: 640px){.container{width:min(calc(100% - 1rem),var(--content-default))}.hero{padding-top:var(--space-8)}.facts,.stat-grid{grid-template-columns:1fr}.card-top,.results-meta,.section-head{flex-direction:column;align-items:start}.buttons{width:100%}.btn{width:100%}}
+    @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto;transition:none!important}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header>
+    <div class="container nav">
+      <div class="brand" aria-label="Keogh.ai home">
+        <div class="logo" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-label="Keogh.ai logo">
+            <path d="M5 18V6"/>
+            <path d="M7 12h10"/>
+            <path d="M13 12l5-6"/>
+            <path d="M13 12l5 6"/>
+          </svg>
+        </div>
+        <div class="brand-wordmark"><strong>Keogh.ai</strong><span>Connecticut waterfront dining compendium</span></div>
+      </div>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#guide">Restaurant guide</a>
+        <a href="#method">Method</a>
+        <a href="#sources">Sources</a>
+      </nav>
+      <button class="theme-toggle" data-theme-toggle aria-label="Switch theme">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Unsponsored • review-driven • coastal Connecticut</div>
+          <h1>The most exhaustive waterfront restaurant guide from Stamford to New Haven.</h1>
+          <p>This prototype organizes real-world waterfront restaurants by town, price, vibe, cuisine, ratings, operating details, and sourced review snippets. It is designed as a long-form editorial directory rather than a generic list, so visitors can quickly narrow the field and then read enough detail to make an informed choice.</p>
+          <div class="buttons" style="margin-top: var(--space-5);">
+            <a class="btn btn-primary" href="#guide">Browse restaurants</a>
+            <a class="btn" href="#sources">Inspect sources</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Project snapshot">
+          <div>
+            <p style="font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-muted);">What this version includes</p>
+            <h2 style="font-family:var(--font-display);font-size:var(--text-xl);margin-top:var(--space-2);">Research-backed directory experience</h2>
+          </div>
+          <div class="stat-grid">
+            <div class="stat"><span>Restaurants included</span><strong id="stat-count">0</strong></div>
+            <div class="stat"><span>Towns covered</span><strong>7</strong></div>
+            <div class="stat"><span>View styles</span><strong>Harbor, river, beach</strong></div>
+            <div class="stat"><span>Source mix</span><strong>Maps, guides, reviews</strong></div>
+          </div>
+          <p style="color:var(--color-text-muted);">For a live production version on keogh.ai, the next step would be to connect this interface to a content workflow so the restaurant records, opening hours, and review corpus can be refreshed automatically.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="guide" class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Restaurant guide</h2>
+            <p>Filter by town, price, vibe, or keyword. Each card combines practical details with short, attributable review language so the site stays informative without becoming a ranking mill.</p>
+          </div>
+        </div>
+
+        <div class="controls panel" aria-label="Restaurant filters">
+          <div class="field">
+            <label for="search">Search</label>
+            <input id="search" class="input" type="search" placeholder="Search by name, town, vibe, seafood, oysters, marina…" />
+          </div>
+          <div class="field">
+            <label for="town">Town</label>
+            <select id="town" class="select"><option value="">All towns</option></select>
+          </div>
+          <div class="field">
+            <label for="price">Price</label>
+            <select id="price" class="select">
+              <option value="">All price ranges</option>
+              <option value="$">Budget</option>
+              <option value="$$">Moderate</option>
+              <option value="$$$">Upscale</option>
+              <option value="$$$$">High-end</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="vibe">Vibe</label>
+            <select id="vibe" class="select">
+              <option value="">All vibes</option>
+              <option value="upscale">Upscale / polished</option>
+              <option value="casual">Casual / lively</option>
+              <option value="romantic">Romantic / sunset</option>
+              <option value="family">Family friendly</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="results-meta">
+          <div id="resultsText">Loading restaurants…</div>
+          <div>Ordered west to east for actual trip planning.</div>
+        </div>
+        <div id="results" class="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="method" class="section">
+      <div class="container two-col">
+        <article class="panel">
+          <div class="section-head" style="margin-bottom:var(--space-4)">
+            <div>
+              <h2>Editorial method</h2>
+            </div>
+          </div>
+          <p>This concept is intentionally non-sponsored in tone. Instead of promotional copy, each listing separates three layers: objective facts such as address and hours, concise venue descriptors from public listings, and short real-world review excerpts that communicate how the place feels in practice.</p>
+          <p style="margin-top:var(--space-4)">The site design also makes room for expansion: editor’s notes, parking guidance, reservation friction, seasonal caveats, map views, and eventually structured comparisons such as “best for sunset,” “best seafood focus,” and “best dock-and-dine.”</p>
+        </article>
+        <article class="panel">
+          <div class="section-head" style="margin-bottom:var(--space-4)">
+            <div>
+              <h2>What I would add next</h2>
+            </div>
+          </div>
+          <div class="chips" style="margin-bottom:var(--space-4)">
+            <span class="chip">Interactive map</span>
+            <span class="chip">Editorial scoring rubric</span>
+            <span class="chip">Reservation links</span>
+            <span class="chip">Seasonality notes</span>
+            <span class="chip">Parking and accessibility</span>
+            <span class="chip">Automatic data refresh</span>
+          </div>
+          <p>The best production version of keogh.ai would use a lightweight CMS or JSON backend, a formal review-ingestion process, and town landing pages with more photography, route planning, and restaurant-by-restaurant long-form writeups.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="sources" class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Research sources</h2>
+            <p>The prototype cites source families and links them directly so visitors can verify where factual venue data and aggregated review language came from.</p>
+          </div>
+        </div>
+        <div class="source-list">
+          <div class="source-card"><strong>Connecticut waterfront dining guides</strong><p>CT Bites regional guide pages were useful for identifying established waterfront destinations and broadening the candidate list beyond the most obvious Stamford and New Haven anchors.</p><p style="margin-top:var(--space-2)"><a target="_blank" rel="noopener noreferrer" href="https://www.ctbites.com/blog/2025/7/15/waterfront-dining-guide-2025">Open CT Bites 2025 waterfront guide</a></p></div>
+          <div class="source-card"><strong>Public review communities</strong><p>Reddit discussion threads helped capture candid user sentiment about which locations are valued more for the view versus the food, an important distinction for an honest directory.</p><p style="margin-top:var(--space-2)"><a target="_blank" rel="noopener noreferrer" href="https://www.reddit.com/r/Connecticut/comments/vrxhy8/best_restaurants_on_or_near_the_water_in_or_near/">Open the Reddit thread</a></p></div>
+          <div class="source-card"><strong>Venue and map listings</strong><p>Map-style listings provide addresses, hours, categories, price bands, and top review snippets, which make them ideal for the structured card design used in this build.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Prototype prepared for keogh.ai. The current build is a static demonstration of structure, style, and content strategy; a live deployment would add a custom domain connection, analytics, and an update workflow.</p>
+    </div>
+  </footer>
+
+  <script>
+    const restaurants = [
+      {
+            "name": "Prime: An American Kitchen & Bar",
+            "town": "Stamford",
+            "area": "Harbor Point / Stamford Harbor",
+            "price": "$$$$",
+            "rating": 4.4,
+            "reviews": 1055,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "steak",
+                  "seafood",
+                  "sushi"
+            ],
+            "summary": "Polished steak-and-seafood destination with scenic harbor views and a strong special-occasion feel.",
+            "address": "78 Southfield Ave, Stamford, CT",
+            "hours": "Daily lunch and dinner",
+            "sourceUrl": "https://stamford.restaurantprime.com?ct-referrer=perplexity",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ca53484e55390e9643071f63f32c983d458c09f8.jpg",
+            "alt": "Plated seafood dish from Prime in Stamford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "The host sat our large group at a table by the water for a gorgeous view."
+                  ],
+                  [
+                        "CT waterfront guide",
+                        "Elevated dining meets effortless waterfront charm with sweeping water views and an open-air deck."
+                  ]
+            ],
+            "tags": [
+                  "Harbor views",
+                  "Outdoor seating",
+                  "Reservations recommended"
+            ]
+      },
+      {
+            "name": "The Wheel",
+            "town": "Stamford",
+            "area": "Harbor Point",
+            "price": "$$$",
+            "rating": 4.4,
+            "reviews": 488,
+            "vibe": [
+                  "upscale",
+                  "family"
+            ],
+            "cuisine": [
+                  "new american",
+                  "seafood"
+            ],
+            "summary": "Stylish Harbor Point restaurant with water-adjacent outdoor seating and a menu that leans brunch-to-dinner.",
+            "address": "4 Star Point Suite 101, Stamford, CT",
+            "hours": "Daily",
+            "sourceUrl": "https://www.thevillagewheel.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3b272b2eeb7a4fa0d10d913a19b0184ffccfa035.jpg",
+            "alt": "Outdoor patio at The Wheel in Stamford overlooking the water.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Outdoor table with a pleasant view of a walkway over the water."
+                  ],
+                  [
+                        "OpenTable listing",
+                        "One of the prominent Stamford waterfront choices in current diner listings."
+                  ]
+            ],
+            "tags": [
+                  "Brunch",
+                  "Outdoor seating",
+                  "Harbor Point"
+            ]
+      },
+      {
+            "name": "Sign of the Whale",
+            "town": "Stamford",
+            "area": "Harbor Point",
+            "price": "$$$",
+            "rating": 4.1,
+            "reviews": 1836,
+            "vibe": [
+                  "casual",
+                  "lively"
+            ],
+            "cuisine": [
+                  "gastropub",
+                  "american"
+            ],
+            "summary": "A bigger, louder waterfront social spot known more for atmosphere, rooftop seating, and drinks than destination seafood.",
+            "address": "6 Harbor Point Rd, Stamford, CT",
+            "hours": "Daily",
+            "sourceUrl": "http://www.signofthewhalect.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/0147f4a1c7c244577c685b2efaf9b134082c0534.jpg",
+            "alt": "Interior social dining scene at Sign of the Whale in Stamford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great food, awesome vibe and scenery."
+                  ],
+                  [
+                        "OpenTable listing",
+                        "Regularly surfaced among Stamford waterfront options."
+                  ]
+            ],
+            "tags": [
+                  "Rooftop seating",
+                  "Brunch",
+                  "Groups"
+            ]
+      },
+      {
+            "name": "Brennan's By The Beach",
+            "town": "Stamford",
+            "area": "Shippan",
+            "price": "$$",
+            "rating": 4.5,
+            "reviews": 324,
+            "vibe": [
+                  "casual",
+                  "family"
+            ],
+            "cuisine": [
+                  "pub",
+                  "american"
+            ],
+            "summary": "Neighborhood beach-adjacent pub rather than a polished destination, useful for an easygoing Shippan meal.",
+            "address": "82 Iroquois Rd, Stamford, CT",
+            "hours": "Daily",
+            "sourceUrl": "http://www.brennansbythebeach.com",
+            "image": "https://picsum.photos/seed/brennans-shippan/1200/800",
+            "alt": "Atmospheric placeholder image for Brennan's By The Beach.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Friendly, clean, great service and the food was delicious."
+                  ]
+            ],
+            "tags": [
+                  "Beach nearby",
+                  "Casual",
+                  "Pub fare"
+            ]
+      },
+      {
+            "name": "Sunset Grille",
+            "town": "Norwalk",
+            "area": "Norwalk Cove Marina",
+            "price": "$$",
+            "rating": 4.3,
+            "reviews": 609,
+            "vibe": [
+                  "romantic",
+                  "casual"
+            ],
+            "cuisine": [
+                  "seafood"
+            ],
+            "summary": "Seasonal marina restaurant that is especially attractive in warm weather for harbor views and sunset timing.",
+            "address": "52 Calf Pasture Beach Rd, Norwalk, CT",
+            "hours": "Seasonal, mid-March to October",
+            "sourceUrl": "http://www.sunsetgrille.net",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/566954623608bf0b1ddca8a7736c22b9476da80a.jpg",
+            "alt": "Sunset patio view at Sunset Grille in Norwalk.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Excellent food in an old-fashioned seaside atmosphere next to the boat dock."
+                  ],
+                  [
+                        "Reddit comment",
+                        "Decent food and nice views."
+                  ]
+            ],
+            "tags": [
+                  "Seasonal",
+                  "Marina",
+                  "Sunset"
+            ]
+      },
+      {
+            "name": "Harbor Lights",
+            "town": "Norwalk",
+            "area": "Norwalk Harbor",
+            "price": "$$$",
+            "rating": 4.1,
+            "reviews": 648,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "mediterranean"
+            ],
+            "summary": "A classic white-tablecloth waterfront choice with strong sunset appeal and a more traditional dining-room tone.",
+            "address": "82 Seaview Ave, Norwalk, CT",
+            "hours": "Daily lunch and dinner",
+            "sourceUrl": "https://harborlightsrestaurant-ct.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/3f43f63da44d8314f5d30cec6d25239fea802c3f.jpg",
+            "alt": "Outdoor waterfront patio at Harbor Lights in Norwalk.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "The food and service were excellent along with a fantastic sunset view."
+                  ],
+                  [
+                        "Venue site",
+                        "Fairfield County's premier waterfront dining destination with Mediterranean-inspired cuisine and harbor views."
+                  ]
+            ],
+            "tags": [
+                  "Sunset dinners",
+                  "Outdoor patio",
+                  "Dockside access"
+            ]
+      },
+      {
+            "name": "Sono Seaport Seafood",
+            "town": "Norwalk",
+            "area": "South Norwalk Harbor",
+            "price": "$$",
+            "rating": 4.0,
+            "reviews": 622,
+            "vibe": [
+                  "casual",
+                  "family"
+            ],
+            "cuisine": [
+                  "seafood"
+            ],
+            "summary": "A classic summer seafood place with picnic-table energy and direct harbor atmosphere.",
+            "address": "100 Water St, Norwalk, CT",
+            "hours": "Seasonal emphasis",
+            "sourceUrl": "http://www.sonoseaportseafood.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/349c3c35dcd41bff3a5d4181a7ae09564ed0c5c5.jpg",
+            "alt": "Waterfront deck at Sono Seaport Seafood in Norwalk.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Delicious food, great view and atmosphere and friendly service."
+                  ]
+            ],
+            "tags": [
+                  "Picnic tables",
+                  "Harbor views",
+                  "Summer feel"
+            ]
+      },
+      {
+            "name": "Black Duck Cafe",
+            "town": "Westport",
+            "area": "Saugatuck River",
+            "price": "$$",
+            "rating": 4.2,
+            "reviews": 946,
+            "vibe": [
+                  "casual",
+                  "lively"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "tavern"
+            ],
+            "summary": "Historic barge setting on the river; more about atmosphere and local character than fine dining polish.",
+            "address": "605 Riverside Ave, Westport, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://www.blackduckwestport.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/414754dbb7ef639382a51434f2b9b4bb4f94ecb1.jpg",
+            "alt": "Exterior of Black Duck Cafe in Westport by the water.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great service, fun atmosphere, beautiful view of the Saugatuck River."
+                  ]
+            ],
+            "tags": [
+                  "Historic barge",
+                  "Riverfront",
+                  "Live music"
+            ]
+      },
+      {
+            "name": "Rive Bistro",
+            "town": "Westport",
+            "area": "Riverside / Saugatuck",
+            "price": "$$$",
+            "rating": 4.5,
+            "reviews": 476,
+            "vibe": [
+                  "romantic",
+                  "upscale"
+            ],
+            "cuisine": [
+                  "french"
+            ],
+            "summary": "A more intimate and refined riverfront option, appealing for quieter meals and date-night dining.",
+            "address": "299 Riverside Ave, Westport, CT",
+            "hours": "Lunch, dinner, brunch",
+            "sourceUrl": "http://rivebistro.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/8736bbd70ec4f9885fc3d6a57506d1ffaa6a53ee.jpg",
+            "alt": "Bright riverfront dining room at Rive Bistro in Westport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "The food was delicious and the atmosphere was quaint by the river."
+                  ]
+            ],
+            "tags": [
+                  "French bistro",
+                  "Date night",
+                  "Riverfront"
+            ]
+      },
+      {
+            "name": "The Whelk",
+            "town": "Westport",
+            "area": "Saugatuck River",
+            "price": "$$$",
+            "rating": 4.5,
+            "reviews": 370,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "oyster bar"
+            ],
+            "summary": "One of the stronger seafood-led choices in the corridor, with a more serious culinary reputation than many view-first spots.",
+            "address": "575 Riverside Ave, Westport, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "http://www.thewhelkwestport.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/ffad96dde8127f579f54629fa428a44f0cc74b50.jpg",
+            "alt": "Exterior of The Whelk in Westport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great lunch spot with great ambiance and delicious seafood."
+                  ]
+            ],
+            "tags": [
+                  "Seafood focus",
+                  "Oysters",
+                  "Upscale"
+            ]
+      },
+      {
+            "name": "The Boathouse at Saugatuck",
+            "town": "Westport",
+            "area": "Saugatuck River",
+            "price": "$$$",
+            "rating": 4.4,
+            "reviews": 173,
+            "vibe": [
+                  "romantic",
+                  "upscale"
+            ],
+            "cuisine": [
+                  "new american",
+                  "seafood"
+            ],
+            "summary": "A rowing-club setting with balcony river views and a lower-key, polished atmosphere.",
+            "address": "521 Riverside Ave, Westport, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://www.boathouseatsaugatuck.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/a70e4ffa412675cf99368489fed980653b4b5945.jpg",
+            "alt": "Outdoor dining area at The Boathouse at Saugatuck in Westport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Beautiful views, friendly staff and great food."
+                  ]
+            ],
+            "tags": [
+                  "Balcony views",
+                  "Quiet-ish",
+                  "Riverfront"
+            ]
+      },
+      {
+            "name": "Boca Oyster Bar",
+            "town": "Bridgeport",
+            "area": "Steelpointe Harbor",
+            "price": "$$$",
+            "rating": 4.1,
+            "reviews": 1435,
+            "vibe": [
+                  "upscale",
+                  "lively"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "oyster bar"
+            ],
+            "summary": "A stylish marina-side seafood restaurant that balances strong views with a social scene.",
+            "address": "10 E Main St, Bridgeport, CT",
+            "hours": "Daily",
+            "sourceUrl": "http://www.bocaoysterbar.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/c77fc7f5ed3c3796dc7c93495b69ec8262d6167f.jpg",
+            "alt": "Waterfront dining pavilion at Boca Oyster Bar in Bridgeport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Easy to dock a boat, good service and delicious dining."
+                  ],
+                  [
+                        "Dock-and-dine guide",
+                        "Enjoy expansive water views while you brunch, lunch and dine at this Steelpointe Harbor eatery."
+                  ]
+            ],
+            "tags": [
+                  "Oyster bar",
+                  "Marina",
+                  "Outdoor seating"
+            ]
+      },
+      {
+            "name": "Captain's Cove Seaport",
+            "town": "Bridgeport",
+            "area": "Black Rock",
+            "price": "$$",
+            "rating": 4.4,
+            "reviews": 2325,
+            "vibe": [
+                  "casual",
+                  "lively",
+                  "family"
+            ],
+            "cuisine": [
+                  "marina bar",
+                  "mixed"
+            ],
+            "summary": "Big deck, marina, and event energy; excellent for a casual water setting, not for a quiet meal.",
+            "address": "1 Bostwick Ave, Bridgeport, CT",
+            "hours": "Daily",
+            "sourceUrl": "http://www.captainscoveseaport.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/20f4d11e3dda7149dc05281b2bdba22a8873a0b4.jpg",
+            "alt": "Crowded outdoor waterfront scene at Captain's Cove Seaport in Bridgeport.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Good menu, drinks and great views from the outdoor seating."
+                  ]
+            ],
+            "tags": [
+                  "Big outdoor deck",
+                  "Marina",
+                  "Casual"
+            ]
+      },
+      {
+            "name": "Joey C's Boathouse",
+            "town": "Stratford",
+            "area": "Housatonic River",
+            "price": "$$",
+            "rating": 4.0,
+            "reviews": 1867,
+            "vibe": [
+                  "casual",
+                  "lively",
+                  "family"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "bar and grill"
+            ],
+            "summary": "Busy dockside patio restaurant with broad appeal and a live-music, group-friendly energy.",
+            "address": "955 Ferry Blvd, Stratford, CT",
+            "hours": "Daily",
+            "sourceUrl": "https://joeycsboathouse.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/eee80bad92f65e8ed73280c24c75604f49d39b87.jpg",
+            "alt": "Interior of Joey C's Boathouse in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great view of the water, our waitress was phenomenal."
+                  ]
+            ],
+            "tags": [
+                  "Dockside patio",
+                  "Live music",
+                  "Family friendly"
+            ]
+      },
+      {
+            "name": "Riverview Bistro",
+            "town": "Stratford",
+            "area": "Housatonic River",
+            "price": "$$",
+            "rating": 4.3,
+            "reviews": 1149,
+            "vibe": [
+                  "family",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "steak",
+                  "seafood",
+                  "pasta"
+            ],
+            "summary": "Riverside setting with more of a mainstream American dining-room menu than a seafood-house identity.",
+            "address": "946 Ferry Blvd, Stratford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "http://www.riverviewstratford.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/e85f0c48d2cf632fda7ff8d5efcaf1dedf566684.jpg",
+            "alt": "Exterior of Riverview Bistro in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Attentive staff, amazing food, beautiful view."
+                  ]
+            ],
+            "tags": [
+                  "River views",
+                  "Outdoor seating",
+                  "Easy group choice"
+            ]
+      },
+      {
+            "name": "Riley's by The Seawall",
+            "town": "Stratford",
+            "area": "Short Beach / seawall",
+            "price": "$$",
+            "rating": 4.3,
+            "reviews": 521,
+            "vibe": [
+                  "casual",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood"
+            ],
+            "summary": "Right by the water with stronger beach-and-view appeal than many inland-adjacent river spots.",
+            "address": "14 Beach Dr, Stratford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://www.rileysbythesea.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/182db5c619edb8736387963c43dec8b0f26fd2fa.jpg",
+            "alt": "Interior dining view at Riley's by The Seawall in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great food, outstanding service, wonderful atmosphere and views."
+                  ],
+                  [
+                        "Reddit thread",
+                        "Decent Stratford waterfront choice with good views."
+                  ]
+            ],
+            "tags": [
+                  "Beachfront feel",
+                  "Seafood",
+                  "View-forward"
+            ]
+      },
+      {
+            "name": "Outriggers Restaurant",
+            "town": "Stratford",
+            "area": "Safe Harbor Marina",
+            "price": "$$",
+            "rating": 4.0,
+            "reviews": 661,
+            "vibe": [
+                  "casual",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "american"
+            ],
+            "summary": "Marina-based seafood option with a deck and a bit more of a scenic dining feel than a tavern feel.",
+            "address": "555 Broad St, Stratford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://www.outriggersrestaurant.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/9b938b3cd050d85a15a477136c5cf87cc713c947.jpg",
+            "alt": "Banquet-style dining room at Outriggers Restaurant in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Very nice place, beautiful views and good food and service."
+                  ],
+                  [
+                        "Dock-and-dine guide",
+                        "Perched on the Housatonic River with raw bar items and harbor views."
+                  ]
+            ],
+            "tags": [
+                  "Marina deck",
+                  "Raw bar",
+                  "River views"
+            ]
+      },
+      {
+            "name": "The Landing at Five Twenty",
+            "town": "Stratford",
+            "area": "Sniffens Lane",
+            "price": "$$",
+            "rating": 4.3,
+            "reviews": 175,
+            "vibe": [
+                  "casual",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "american",
+                  "seafood"
+            ],
+            "summary": "Smaller waterside option with oysters and lobster rolls, useful for a lower-key alternative in Stratford.",
+            "address": "520 Sniffens Ln, Stratford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "https://thelandingatfivetwenty.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/1956b829ef48b4d4ea8e6cead7069656b71955c6.jpg",
+            "alt": "Outdoor waterfront patio at The Landing at Five Twenty in Stratford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Wonderful location, food is great, excellent service and management."
+                  ]
+            ],
+            "tags": [
+                  "Waterside deck",
+                  "Oysters",
+                  "Lobster roll"
+            ]
+      },
+      {
+            "name": "Stonebridge Restaurant",
+            "town": "Milford",
+            "area": "Milford Harbor / river crossing",
+            "price": "$$$",
+            "rating": 4.4,
+            "reviews": 1790,
+            "vibe": [
+                  "upscale",
+                  "romantic",
+                  "family"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "american"
+            ],
+            "summary": "Longstanding Milford classic with broad appeal, substantial seafood credibility, and a reliably scenic setting.",
+            "address": "50 Daniel St, Milford, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "http://www.stonebridgerestaurant.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/c6cc7fbdd6442fd4999e146d25d5712cf70398f1.jpg",
+            "alt": "Warmly lit dining room at Stonebridge Restaurant in Milford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Fun and beautiful atmosphere, great food, location and service."
+                  ],
+                  [
+                        "CT waterfront guide",
+                        "Known locally as the Bridge, it grew from a fresh fish market into a full-service upscale restaurant."
+                  ]
+            ],
+            "tags": [
+                  "Milford staple",
+                  "Seafood focus",
+                  "Reservations useful"
+            ]
+      },
+      {
+            "name": "Dockside Brewery",
+            "town": "Milford",
+            "area": "Harbor / riverfront",
+            "price": "$$",
+            "rating": 4.4,
+            "reviews": 1209,
+            "vibe": [
+                  "casual",
+                  "lively",
+                  "family"
+            ],
+            "cuisine": [
+                  "brewpub",
+                  "seafood"
+            ],
+            "summary": "Good for a social, energetic meal by the water; less refined than Stonebridge but more relaxed and beer-driven.",
+            "address": "40 Bridgeport Ave, Milford, CT",
+            "hours": "Daily",
+            "sourceUrl": "https://www.docksidebrewery.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/16fb11baf689040bc0186e9f27b760f80a70d1c3.jpg",
+            "alt": "Outdoor patio at Dockside Brewery in Milford.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Great food and beverages, awesome vibes on the water."
+                  ]
+            ],
+            "tags": [
+                  "Brewery",
+                  "Outdoor seating",
+                  "Social atmosphere"
+            ]
+      },
+      {
+            "name": "Oak Beach Bar + Grill",
+            "town": "West Haven",
+            "area": "Captain Thomas Blvd",
+            "price": "$$",
+            "rating": 4.9,
+            "reviews": 222,
+            "vibe": [
+                  "casual",
+                  "family"
+            ],
+            "cuisine": [
+                  "american"
+            ],
+            "summary": "A newer and very beach-adjacent casual option best for shoreline atmosphere and easy meals.",
+            "address": "291 Captain Thomas Blvd, West Haven, CT",
+            "hours": "Lunch and dinner",
+            "sourceUrl": "http://oakbeachbargrill.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/1b41a512e15ed676fa4df60735a5efc32bd232f6.jpg",
+            "alt": "Exterior of Oak Beach Bar and Grill in West Haven.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "The restaurant is beautiful and right down by the beach."
+                  ]
+            ],
+            "tags": [
+                  "Beachfront",
+                  "Casual",
+                  "Good for groups"
+            ]
+      },
+      {
+            "name": "Shell & Bones Oyster Bar and Grill",
+            "town": "New Haven",
+            "area": "City Point / harbor",
+            "price": "$$$$",
+            "rating": 4.5,
+            "reviews": 3168,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "seafood",
+                  "oyster bar",
+                  "steak"
+            ],
+            "summary": "The marquee New Haven harbor restaurant, pairing strong seafood execution with one of the best direct-over-water settings in the region.",
+            "address": "100 S Water St, New Haven, CT",
+            "hours": "Daily lunch and dinner",
+            "sourceUrl": "http://www.shellandbones.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/34491c1d14de4491658a0c1806e77b7c97523d1b.jpg",
+            "alt": "Aerial view of Shell and Bones on the New Haven waterfront.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Awesome vibe, great food, and phenomenal views of the water."
+                  ],
+                  [
+                        "CT waterfront guide",
+                        "Features year-round indoor and outdoor waterfront dining directly over the water."
+                  ],
+                  [
+                        "Reddit thread",
+                        "Good though a bit pricey; the view is great, right out into the Sound."
+                  ]
+            ],
+            "tags": [
+                  "Destination dining",
+                  "Direct harbor views",
+                  "Seafood focus"
+            ]
+      },
+      {
+            "name": "IL Gabbiano",
+            "town": "New Haven",
+            "area": "Long Wharf",
+            "price": "$$$",
+            "rating": 4.2,
+            "reviews": 877,
+            "vibe": [
+                  "upscale",
+                  "family"
+            ],
+            "cuisine": [
+                  "italian"
+            ],
+            "summary": "An Italian waterfront option on Long Wharf that offers a broader menu for groups that do not want a seafood-only meal.",
+            "address": "501 Long Wharf Dr, New Haven, CT",
+            "hours": "Daily",
+            "sourceUrl": "https://ilgabbianonewhaven.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/08891fd9ec0ec7d4269d71a183ac7e0b75001310.jpg",
+            "alt": "Interior bar and dining room at IL Gabbiano in New Haven.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Delicious food, fun atmosphere, and a professional, attentive staff."
+                  ]
+            ],
+            "tags": [
+                  "Italian",
+                  "Water views",
+                  "Group-friendly"
+            ]
+      },
+      {
+            "name": "Fair Haven Oyster Co.",
+            "town": "New Haven",
+            "area": "Fair Haven / Quinnipiac River",
+            "price": "$$$$",
+            "rating": 4.7,
+            "reviews": 205,
+            "vibe": [
+                  "upscale",
+                  "romantic"
+            ],
+            "cuisine": [
+                  "oyster bar",
+                  "seafood"
+            ],
+            "summary": "Smaller, more intimate seafood destination with a refined tone and strong appeal for oyster-focused diners.",
+            "address": "307 Front St, New Haven, CT",
+            "hours": "Dinner-focused",
+            "sourceUrl": "https://www.fairhavenoysterco.com",
+            "image": "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/fac0e7a3bf2f2487a06b5e87981633ee039ef6ac.jpg",
+            "alt": "Waterfront deck at Fair Haven Oyster Co. in New Haven.",
+            "quotes": [
+                  [
+                        "Map review",
+                        "Cozy vibe, a beautiful setting at the river, and excellent service."
+                  ],
+                  [
+                        "Dock-and-dine guide",
+                        "An elevated seafood bar with expansive waterfront views and a large deck."
+                  ]
+            ],
+            "tags": [
+                  "Intimate",
+                  "Oysters",
+                  "Refined"
+            ]
+      }
+];
+
+    const search = document.getElementById('search');
+    const town = document.getElementById('town');
+    const price = document.getElementById('price');
+    const vibe = document.getElementById('vibe');
+    const results = document.getElementById('results');
+    const resultsText = document.getElementById('resultsText');
+    document.getElementById('stat-count').textContent = restaurants.length;
+
+    [...new Set(restaurants.map(r => r.town))].forEach(t => {
+      const opt = document.createElement('option'); opt.value = t; opt.textContent = t; town.appendChild(opt);
+    });
+
+    function moneyLabel(p){return ({'$':'Budget','$$':'Moderate','$$$':'Upscale','$$$$':'High-end'})[p] || p}
+
+    function render(){
+      const q = search.value.trim().toLowerCase();
+      const filtered = restaurants.filter(r => {
+        const hay = [r.name,r.town,r.area,r.price,r.summary,...r.vibe,...r.cuisine,...r.tags].join(' ').toLowerCase();
+        return (!q || hay.includes(q)) && (!town.value || r.town === town.value) && (!price.value || r.price === price.value) && (!vibe.value || r.vibe.includes(vibe.value));
+      });
+      resultsText.textContent = `${filtered.length} restaurant${filtered.length===1?'':'s'} shown`;
+      if(!filtered.length){results.innerHTML = '<div class="empty">No restaurants match those filters. Try clearing a filter or using a broader search term.</div>'; return;}
+      results.innerHTML = filtered.map(r => `
+        <article class="restaurant-card">
+          <div class="card-media">
+            <img src="${r.image}" alt="${r.alt}" width="1200" height="800" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="title-block">
+                <h3>${r.name}</h3>
+                <p>${r.town} • ${r.area}</p>
+              </div>
+              <div class="rating">★ ${r.rating.toFixed(1)} · ${r.reviews} reviews</div>
+            </div>
+            <div class="chips">
+              <span class="chip">${moneyLabel(r.price)}</span>
+              ${r.tags.map(t=>`<span class="chip">${t}</span>`).join('')}
+            </div>
+            <p class="summary">${r.summary}</p>
+            <div class="review-list">
+              ${r.quotes.map(q=>`<div class="quote"><strong>${q[0]}</strong><p>“${q[1]}”</p></div>`).join('')}
+            </div>
+            <div class="facts">
+              <div class="fact"><span>Address</span>${r.address}</div>
+              <div class="fact"><span>Hours</span>${r.hours}</div>
+              <div class="fact"><span>Cuisine</span>${r.cuisine.join(', ')}</div>
+              <div class="fact"><span>Vibe</span>${r.vibe.join(', ')}</div>
+            </div>
+            <div class="buttons">
+              <a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="${r.sourceUrl}">Open venue page</a>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    search.addEventListener('input', render);
+    [town,price,vibe].forEach(el => el.addEventListener('change', render));
+    render();
+
+    (function(){
+      const btn=document.querySelector('[data-theme-toggle]');
+      const root=document.documentElement;
+      let mode=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+      root.setAttribute('data-theme',mode);
+      function icon(){
+        btn.innerHTML=mode==='dark'
+          ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+          : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      }
+      icon();
+      btn.addEventListener('click',()=>{mode=mode==='dark'?'light':'dark';root.setAttribute('data-theme',mode);icon();});
+    })();
+  </script>
+</body>
+</html>
