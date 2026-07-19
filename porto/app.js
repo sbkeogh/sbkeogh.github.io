@@ -96,12 +96,28 @@
     if (state.current < stops.length - 1) openStop(state.current + 1, true);
   });
 
-  /* ---------- Narration (speech synthesis) ---------- */
+  /* ---------- Narration (recorded audio, speech-synthesis fallback) ---------- */
   var playBtn = document.getElementById('btn-play');
+  var audioEl = new Audio();
+  audioEl.preload = 'none';
+  audioEl.addEventListener('ended', function () { stopSpeaking(); });
+
   playBtn.addEventListener('click', function () {
     if (state.speaking) { stopSpeaking(); return; }
     if (state.current >= 0) speakStop(stops[state.current]);
   });
+
+  function audioUrl(s) { return 'audio/' + s.id + '.mp3'; }
+
+  function playRecorded(s) {
+    audioEl.src = audioUrl(s);
+    return audioEl.play().then(function () {
+      state.speaking = true;
+      playBtn.textContent = '◼ Stop narration';
+      playBtn.classList.add('playing');
+      return true;
+    });
+  }
 
   function pickVoice() {
     var voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
@@ -115,11 +131,16 @@
   }
 
   function speakStop(s) {
+    stopSpeaking();
+    // Prefer a recorded narration file; fall back to speech synthesis.
+    playRecorded(s).catch(function () { speakSynth(s); });
+  }
+
+  function speakSynth(s) {
     if (!window.speechSynthesis) {
       showStatus('Speech synthesis is not available on this device.');
       return;
     }
-    stopSpeaking();
     // Chunk by sentence: iOS Safari silently cuts off long utterances.
     var text = s.name + '. ' + s.story.join(' ');
     var plain = text.replace(/<[^>]+>/g, '');
@@ -150,6 +171,8 @@
     state.speaking = false;
     state.utterQueue = [];
     if (window.speechSynthesis) speechSynthesis.cancel();
+    if (!audioEl.paused) audioEl.pause();
+    audioEl.removeAttribute('src');
     playBtn.textContent = '▶ Play narration';
     playBtn.classList.remove('playing');
   }
@@ -297,6 +320,10 @@
         }
       }
     }
+    // Also pull any recorded narration files into the cache (missing ones are fine).
+    stops.forEach(function (s) {
+      fetch(audioUrl(s)).catch(function () {});
+    });
     showStatus('Downloading offline map (' + urls.length + ' tiles)…');
     caches.open('porto-tiles-v1').then(function (cache) {
       var done = 0, failed = 0;
