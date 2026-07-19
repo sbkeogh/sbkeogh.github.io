@@ -1,0 +1,10 @@
+{
+  "name": "Porto — Historical Walking Tour",
+  "short_name": "Porto Tour",
+  "description": "A self-guided, geo-located audio walking tour of Porto's historic center.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f8fa",
+  "theme_color": "#14477e",
+  "icons": []
+}
