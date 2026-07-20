@@ -62,6 +62,15 @@
     var nextEl = document.getElementById('sheet-next');
     if (s.next) { nextEl.textContent = '➜ ' + s.next; nextEl.classList.remove('hidden'); }
     else { nextEl.classList.add('hidden'); }
+    var walkEl = document.getElementById('sheet-walk');
+    if (s.walk && s.walk.length) {
+      document.getElementById('sheet-walk-body').innerHTML = s.walk.map(function (p) {
+        return '<p>' + p + '</p>';
+      }).join('');
+      walkEl.classList.remove('hidden');
+    } else {
+      walkEl.classList.add('hidden');
+    }
     document.getElementById('btn-prev').disabled = i === 0;
     document.getElementById('btn-next').disabled = i === stops.length - 1;
     updateSheetDistance();
@@ -143,6 +152,8 @@
     }
     // Chunk by sentence: iOS Safari silently cuts off long utterances.
     var text = s.name + '. ' + s.story.join(' ');
+    if (s.next) text += ' ' + s.next;
+    if (s.walk && s.walk.length) text += ' On the way: ' + s.walk.join(' ');
     var plain = text.replace(/<[^>]+>/g, '');
     var sentences = plain.match(/[^.!?]+[.!?]+["']?\s*/g) || [plain];
     var voice = pickVoice();

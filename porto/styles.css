@@ -201,6 +201,7 @@ body {
 }
 .sheet.collapsed .sheet-body,
 .sheet.collapsed .sheet-next,
+.sheet.collapsed .sheet-walk,
 .sheet.collapsed .sheet-nav { display: none; }
 .sheet-grip { display: flex; justify-content: center; padding: 8px 0 2px; cursor: grab; }
 .sheet-grip span { width: 42px; height: 4px; border-radius: 4px; background: #d3dae2; }
@@ -254,6 +255,24 @@ body {
   font-size: 0.85rem;
   color: var(--ink-soft);
 }
+.sheet-walk {
+  margin: 4px 16px 8px;
+  padding: 10px 12px;
+  background: rgba(20, 71, 126, 0.07);
+  border-left: 3px solid var(--blue-bright);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+.sheet-walk h3 {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue-bright);
+  margin-bottom: 6px;
+}
+.sheet-walk p { margin-bottom: 0.7em; }
+.sheet-walk p:last-child { margin-bottom: 0; }
 .sheet-nav {
   display: flex;
   justify-content: space-between;
