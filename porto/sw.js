@@ -1,5 +1,5 @@
 /* Porto tour service worker — precache the app shell, cache-first for map tiles. */
-var SHELL_CACHE = 'porto-shell-v1';
+var SHELL_CACHE = 'porto-shell-v2';
 var TILE_CACHE = 'porto-tiles-v1';
 var SHELL = [
   './',
@@ -8,6 +8,9 @@ var SHELL = [
   'app.js',
   'data.js',
   'manifest.webmanifest',
+  'icon-180.png',
+  'icon-192.png',
+  'icon-512.png',
   'vendor/leaflet.js',
   'vendor/leaflet.css',
   'vendor/images/marker-icon.png',
