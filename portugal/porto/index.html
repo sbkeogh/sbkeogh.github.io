@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Porto — A Historical Walking Tour</title>
+  <meta name="description" content="A self-guided, geo-located audio walking tour of Porto's historic center." />
+  <meta name="theme-color" content="#14477e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Porto Tour" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AD%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="vendor/leaflet.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <h1>Porto</h1>
+      <span class="subtitle">Historic Center Walking Tour</span>
+    </div>
+    <div class="topbar-actions">
+      <button id="btn-list" class="iconbtn" title="Stop list" aria-label="Stop list">&#9776;</button>
+      <button id="btn-offline" class="iconbtn" title="Download for offline" aria-label="Download for offline">&#8681;</button>
+    </div>
+  </header>
+
+  <div id="map"></div>
+
+  <div class="fabs">
+    <button id="btn-locate" class="fab" title="Start GPS tracking">📍</button>
+  </div>
+
+  <div id="status-pill" class="status-pill hidden"></div>
+
+  <!-- Stop list drawer -->
+  <aside id="drawer" class="drawer hidden" aria-label="Tour stops">
+    <div class="drawer-head">
+      <h2>Tour stops</h2>
+      <button id="btn-drawer-close" class="iconbtn" aria-label="Close">&times;</button>
+    </div>
+    <div class="drawer-intro" id="tour-intro"></div>
+    <ol id="stop-list" class="stop-list"></ol>
+    <div class="drawer-foot">
+      <label class="toggle-row">
+        <input type="checkbox" id="chk-autoplay" />
+        <span>Auto-play narration when I arrive at a stop</span>
+      </label>
+      <button id="btn-reset" class="linkbtn">Reset visited stops</button>
+    </div>
+  </aside>
+
+  <!-- Story card (bottom sheet) -->
+  <section id="sheet" class="sheet hidden" aria-live="polite">
+    <div class="sheet-grip" id="sheet-grip"><span></span></div>
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-kicker"><span id="sheet-num"></span> · <span id="sheet-era"></span></div>
+        <h2 id="sheet-title"></h2>
+      </div>
+      <button id="btn-sheet-close" class="iconbtn" aria-label="Close">&times;</button>
+    </div>
+    <div class="sheet-controls">
+      <button id="btn-play" class="playbtn">▶ Play narration</button>
+      <span id="sheet-dist" class="dist"></span>
+    </div>
+    <div id="sheet-body" class="sheet-body"></div>
+    <div id="sheet-next" class="sheet-next"></div>
+    <div id="sheet-walk" class="sheet-walk hidden">
+      <h3>On the way</h3>
+      <div id="sheet-walk-body"></div>
+    </div>
+    <div class="sheet-nav">
+      <button id="btn-prev" class="navbtn">‹ Previous</button>
+      <button id="btn-next" class="navbtn">Next ›</button>
+    </div>
+  </section>
+
+  <script src="vendor/leaflet.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
