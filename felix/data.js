@@ -40,6 +40,13 @@ window.FELIX = {
       examples:["Week in review","Weekly review for last week"],
       related:["check-in","deadlines"] },
 
+    { id:"whats-slipping", cat:"cadence", kind:"command", name:"What's Slipping (Deep Check)",
+      trigger:"Deep-check what's slipping", command:"Deep-check what's slipping", invoke:"Say this to Felix",
+      blurb:"An email-verified pass over unanswered client callbacks — catching the ones the fast weekly scan can't see.",
+      detail:"A weekly automated scan flags client callback requests that never got an annotated response in the notes. This deep check is the on-demand follow-up: for each candidate it cross-references outgoing email, so a callback that was actually answered by email gets cleared instead of nagging — and what remains is a short, verified list of who is genuinely still waiting.",
+      examples:["What's slipping (deep)","Full slipping check"],
+      related:["check-in","weekly-review","felix-monitor"] },
+
     /* ---------------- Recordings ---------------- */
     { id:"plaud-sync", cat:"recordings", kind:"command", name:"Plaud Sync",
       trigger:"Sync Plaud", command:"Sync Plaud", invoke:"Say this to Felix",
@@ -163,6 +170,14 @@ window.FELIX = {
       examples:["Respond to [email]","Draft reply to [client]","Email [client] about [topic]"],
       notes:["A hard rule (and an enforced safeguard): no email is sent without an explicit “send” / “approved” from you."],
       related:["cover-letter","ms365"] },
+
+    { id:"client-outreach", cat:"drafting", kind:"command", name:"Client Outreach Review",
+      trigger:"Draft client outreach", command:"Draft client outreach", invoke:"Say this to Felix",
+      blurb:"Stages proactive status-update drafts for matters that have gone quiet — every one grounded in the case record and left in Drafts for review.",
+      detail:"Client Outreach selects matters that haven't heard from the office in a while, drafts a short grounded status update for each in the firm's voice, and places them in the mail client's Drafts folder. Nothing is addressed on a guess and nothing is sent — reviewing, editing, and sending each draft is the attorney's act.",
+      examples:["Review outreach","Client updates"],
+      notes:["Draft-only by design: the protocol can create drafts but is barred from the send action entirely."],
+      related:["email-reply","case-briefing"] },
 
     /* ---------------- Filings ---------------- */
     { id:"pdf-scan", cat:"filings", kind:"command", name:"PDF Scan",
@@ -342,6 +357,14 @@ window.FELIX = {
       detail:"A repeatable review of a Medicaid applicant's financial statements — flagging every deposit or withdrawal at or above the reporting threshold, sweeping for references to accounts that haven't been submitted (including ones closed during the lookback), reconciling each statement by running balance, and producing a clean transaction schedule.",
       examples:["Find the $5,000+ transactions for [applicant]","Are there any other accounts for [applicant]?"],
       related:["slash-verifications-review","ct-medicaid-eligibility"] },
+
+    { id:"medicaid-app-docs", cat:"elderlaw", kind:"skill", name:"Medicaid Application Documents",
+      trigger:"(applied automatically)", command:"Start the Medicaid application file for [matter]", invoke:"Ask Felix — this skill auto-applies",
+      blurb:"Runs the documentation side of a long-term-care Medicaid application as a per-matter completeness matrix — every required statement and document tracked from required to filed.",
+      detail:"Organizes the documentation for a Connecticut long-term-care Medicaid application as a completeness matrix: one tracked requirement for every statement month across the lookback and every supporting document the agency needs. Classifies incoming documents to their slot, drafts the letters that chase what's missing, ingests the agency's own verification checklist when it arrives (which then controls what \"done\" means), and compiles the final packet with a table of contents and an integrity check. Parallel AI review passes triage anything the classifier can't place confidently and audit the assembled grid before compiling — proposals only, with a human approving every filing.",
+      examples:["What are we still missing for the application?","The verification checklist came in","Compile the packet for [matter]"],
+      notes:["Opt-in per matter and draft-only — Felix never mails, emails, or submits anything to the agency."],
+      related:["verifications-review","ct-medicaid-eligibility","slash-medicaid-analysis"] },
 
     { id:"fee-calculation", cat:"elderlaw", kind:"skill", name:"CT Probate Fee Calculation",
       trigger:"(applied automatically)", command:"Calculate the probate fee for the [name] estate", invoke:"Ask Felix — this skill auto-applies",
