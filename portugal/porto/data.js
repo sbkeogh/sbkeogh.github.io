@@ -8,7 +8,7 @@
 window.TOUR = {
   center: [41.1435, -8.6125],
   bounds: { north: 41.1520, south: 41.1360, west: -8.6230, east: -8.6030 },
-  intro: 'A two-to-three-hour loop through the historic center of Porto — from the azulejo hall of São Bento station, up to the Romanesque cathedral, out across the great iron bridge, down to the riverside Ribeira, and back up through the Baroque city of Nicolau Nasoni. Porto began as Portus Cale, the Roman-era port widely regarded as the origin of the name “Portugal” itself. Tap a numbered stop, or turn on GPS and let the stories find you.',
+  intro: 'A two-to-three-hour loop through the historic center of Porto — from the azulejo hall of São Bento station, up to the Romanesque cathedral, out across the great iron bridge, down to the riverside Ribeira, and back up through the Baroque city of Nicolau Nasoni. Porto began as Portus Cale, the Roman-era port widely regarded as the origin of the name “Portugal” itself. Tap a numbered stop, or turn on GPS and let the stories find you. Stops 13 to 16 are a separate shorter leg across the river in Vila Nova de Gaia — the port lodges, the cable car, and the monastery on the hill — about an hour and a half, and worth its own afternoon. Note that Serra do Pilar is closed on Mondays.',
   stops: [
     {
       id: 'sao-bento',
@@ -188,6 +188,67 @@ window.TOUR = {
         'Look carefully: what reads as one great church here is actually two — with a house squeezed between them. On the left, the seventeenth-century Igreja das Carmelitas, church of a Carmelite convent. On the right, the Igreja do Carmo, built 1756 to 1768 by José de Figueiredo Seixas, a follower of Nasoni, in exuberant Baroque-Rococo.',
         'Between them stands the Casa Escondida — the Hidden House — barely a meter wide, one of the narrowest houses anywhere. The crowd-pleasing story is that the two churches were forbidden to share a wall, keeping a discreet gap between the monks of Carmo and the nuns of Carmelitas. The documented, more practical reason: the sliver filled an awkward gap and housed the churches’ chaplains, artists, and hospital doctors. Tell both versions; Porto does.',
         'Before you go, walk around to the Carmo’s side wall: the monumental blue-and-white azulejo panel there, depicting the founding of the Carmelite Order, was added in 1912, designed by Silvestro Silvestri with tiles made across the river in Vila Nova de Gaia. It is the perfect closing image — a city that keeps writing its history in blue and white. Obrigado for walking Porto.'
+      ],
+      next: 'That completes the historic-centre loop. Stops 13 to 16 are a separate, shorter leg across the river in Vila Nova de Gaia — the port lodges and the monastery on the hill — best saved for another afternoon.'
+    },
+
+    /* ---- The Gaia leg (stops 13–16) ----
+     * A separate second walk on the south bank, not a continuation of the loop
+     * above: cross the bridge from Ribeira, work east along the quay, then climb
+     * to Serra do Pilar and come back over the upper deck. Facts verified
+     * 2026-07-29; coordinates are OpenStreetMap/Nominatim lookups except Serra
+     * do Pilar, which agrees with its Wikipedia geo-tag to within ~40 m.
+     */
+    {
+      id: 'cais-gaia',
+      name: 'Cais de Gaia — the Quay & the Rabelos',
+      era: 'Gaia leg · the river trade',
+      coords: [41.13764, -8.61351],
+      story: [
+        'You have crossed the river, and you are no longer in Porto. This is Vila Nova de Gaia, a separate city with its own council — a distinction the people here will make for you if you get it wrong. Porto keeps the cathedral and the name; Gaia keeps the wine.',
+        'Look at the boats moored along the quay: flat-bottomed, square-sailed, with an absurdly long timber oar projecting from the stern. These are barcos rabelos, and the name means roughly “little tail” — for that steering oar, worked by a man standing on a raised platform at the back. The flat bottom and shallow draught were not a style choice. Before the dams, the upper Douro was a river of rapids and shifting shallows, and this was the only hull that could carry a cargo down it. A working rabelo took between forty and a hundred barrels of port, with a crew of up to twelve, from the terraced vineyards eighty miles upstream down to these lodges.',
+        'It was dangerous, seasonal work, and it ended within a single generation. The dams and locks built along the Douro from the 1950s onward drowned the rapids and made the river placid; by 1961 only six rabelos were still working, and the last commercial run is usually dated to 1964. Every boat you can see from here is now a floating advertisement — look along the sails and you are reading the names of the port houses whose lodges are behind you. The same engineering that killed the rabelo is what lets the river cruise boats come down today.'
+      ],
+      next: 'Walk east along the Avenida de Diogo Leite, water on your left, toward the lodges clustered under the bridge.'
+    },
+    {
+      id: 'lodges',
+      name: 'The Port Lodges',
+      era: 'Gaia leg · 1703 onward',
+      coords: [41.13759, -8.61248],
+      story: [
+        'Read the names painted above these doors: Sandeman, Taylor’s, Graham’s, Cockburn’s. They are British and Scottish, with Dutch and German among them, and that is the whole history of this bank in a single glance. Port is a Portuguese wine invented largely for an English thirst.',
+        'The reason goes back to a treaty. On the twenty-seventh of December, 1703, England and Portugal signed the agreement negotiated by John Methuen: English woollen cloth would enter Portugal duty-free, and in return Portuguese wines would pay a third less duty in England than French wines did. England was at war with France and short of claret. Portuguese wine — fortified with brandy so it survived the sea voyage — filled the gap, and a trade was born that made fortunes on both banks of this river.',
+        'So why is all of it stored on this side, and not in the grander city across the water? Partly law and partly weather. In 1777, under the reforms of the Douro Wine Company — the regulating monopoly the Marquês de Pombal had created two decades earlier — Vila Nova de Gaia was made the official storage place for the exporters. And the climate here suited the wine: cool, damp air coming off the Atlantic and up the river mouth, holding these cellars at a steady temperature while the Douro valley upstream baked. The wine was grown in the heat and aged in the cool.',
+        'That requirement held for two centuries. It was only in the mid-1980s, around the time Portugal joined the European Community, that producers were finally allowed to age and ship port from the Douro itself — sources disagree over whether the change took effect in 1986 or 1987. Either way, the rule is gone and the buildings stayed: most of the great houses still age their wine exactly where you are standing, out of habit, inertia, and the fact that it works.',
+        'Nearly all of these lodges run tours and tastings, and in August you should book ahead rather than turn up. If you take only one, take one with a cellar you can walk into — the smell of a room holding thousands of barrels is the part you will remember.'
+      ],
+      next: 'Head for the Gaia end of the bridge’s upper deck — either up through the streets, or on the cable car from the quay.'
+    },
+    {
+      id: 'jardim-morro',
+      name: 'Jardim do Morro',
+      era: 'Gaia leg · the view',
+      coords: [41.13761, -8.60873],
+      story: [
+        'This little hillside garden at the Gaia end of the upper deck is, for the price of nothing at all, one of the two best views in the city — the other being the terrace you are about to climb to.',
+        'From here the whole thing composes itself. Porto is stacked on the far bank like seating in a theatre: the Ribeira houses at the waterline, the cathedral and the medieval wall above them, the Clérigos tower breaking the skyline behind. The bridge runs out at your feet on two levels — the metro and pedestrians up here, cars and pedestrians on the deck far below, down at the level of the quays. If you walked the lower deck an hour ago, you have now crossed Seyrig’s bridge twice, at both heights, which is the proper way to meet it.',
+        'If you came up the easy way, you came on the Teleférico de Gaia, which opened in April 2011 and runs five hundred and sixty-two meters from the quay to this ridge — lifting you from about five meters above sea level to about sixty-three. It is a short ride and a one-way ticket is the sensible purchase, since the walk down through the lodges is pleasant and the walk up is not.',
+        'This is also the place to be at sunset, when the light comes up the river from the Atlantic and hits the whole west-facing city at once. If your day allows only one moment for a photograph, spend it here.'
+      ],
+      next: 'Walk east, away from the bridge and uphill, about two hundred meters to the round white monastery on the summit.'
+    },
+    {
+      id: 'serra-pilar',
+      name: 'Mosteiro da Serra do Pilar',
+      era: '1538–1672 · circular church',
+      coords: [41.13827, -8.60797],
+      story: [
+        'Walk around this building before you look at the view, because its shape is the point. The church is a perfect circle. So is the cloister beside it — a ring of columns of the same diameter as the church itself. There is almost nothing else like it in Portugal. The Augustinians began building here in 1538, and the round church was finally inaugurated on the seventeenth of July, 1672.',
+        'Whoever chose this hill was not thinking only about God. This summit commands the mouth of the gorge, the bridge, and both banks — and armies noticed. On the twelfth of May, 1809, Arthur Wellesley, not yet the Duke of Wellington, made his headquarters right here. The French under Marshal Soult held Porto across the water and had destroyed the bridge, confident the river could not be crossed. A scout found wine barges hidden on the far side. Wellesley ferried men over a few dozen at a time into an unoccupied seminary on the north bank, and when Soult threw his troops at it, the British guns firing from this monastery garden broke the counterattacks. Porto was retaken in a single day.',
+        'A generation later the hill mattered again, and worse. From July 1832 to August 1833, during the Liberal Wars between the brothers Pedro and Miguel, Porto was besieged for over a year — and Serra do Pilar was the one position the Liberals held on this southern bank, the bridgehead that kept the city’s link to its fleet open. Miguelite guns shelled the city from the heights of Candal, just along this ridge. The monks had gone; the monastery had become a fortress, and it has never entirely stopped being one. It belongs to the Portuguese army to this day, and the artillery regiment named after this hill still keeps it.',
+        'Which is why, when you look at the terrace in front of the church, you are being shown the view by soldiers. It is open to the public, Tuesday through Sunday — and closed on Mondays, which is worth planning around. From the wall, Porto lies opposite in one piece: the river, the double-decked bridge, the Ribeira, the cathedral hill, the tower. In 1996 UNESCO inscribed the historic centre of Porto as a World Heritage site, and the listing names three things — the historic centre, the Luiz the First bridge, and this monastery. You are standing inside the third of them, looking at the first two.',
+        'That is the far bank finished. Cross back over the upper deck, and the city you have been reading all day is in front of you the whole way over. Obrigado — and saúde.'
       ],
       next: null
     }
