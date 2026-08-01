@@ -1,8 +1,9 @@
 /* Portugal trip service worker.
  *
  * Scope: /portugal/  — the encrypted trip pages.
- * NOT the walking tour: /portugal/porto/ registers its own service worker with a
- * narrower scope, which therefore controls those pages. This one stays out of it.
+ * NOT the walking tours: each of /portugal/porto/, /portugal/evora/, /portugal/lisboa/
+ * and /portugal/caldas/ registers its own service worker with a narrower scope, which
+ * therefore controls those pages. This one stays out of all four.
  *
  * Why this exists: StatiCrypt decrypts entirely in the browser, so once a page's
  * bytes are cached and the passphrase is remembered in localStorage, the page opens
@@ -13,7 +14,7 @@
  * so a rebuild is picked up when there IS signal but nothing breaks when there isn't.
  */
 
-var VERSION = 'trip-v1';
+var VERSION = 'trip-v2';
 var CACHE = 'portugal-' + VERSION;
 
 var PAGES = [
@@ -23,6 +24,9 @@ var PAGES = [
   'documents.html',
   'packing.html',
   'watch.html',
+  'getting-around.html',
+  'book-ahead.html',
+  'phrases.html',
   'evora.html',
   'porto.html',
   'lisbon.html',
@@ -63,8 +67,11 @@ self.addEventListener('fetch', function (e) {
   try { url = new URL(req.url); } catch (err) { return; }
 
   if (url.origin !== self.location.origin) return;
-  // Leave the walking tour entirely to its own service worker.
+  // Leave each walking tour entirely to its own service worker.
   if (url.pathname.indexOf('/portugal/porto/') === 0) return;
+  if (url.pathname.indexOf('/portugal/evora/') === 0) return;
+  if (url.pathname.indexOf('/portugal/lisboa/') === 0) return;
+  if (url.pathname.indexOf('/portugal/caldas/') === 0) return;
   if (url.pathname.indexOf('/portugal/') !== 0) return;
 
   e.respondWith(

@@ -1,0 +1,13 @@
+{
+  "name": "Lisbon — Historical Walking Tour",
+  "short_name": "Lisbon Tour",
+  "description": "A self-guided, geo-located audio walking tour of Lisbon from Chiado through the Baixa to Alfama and the castle.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f8fa",
+  "theme_color": "#14477e",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
