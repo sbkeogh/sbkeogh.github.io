@@ -143,6 +143,17 @@ main.paper .hero { margin-top: -.2rem; }
   max-height: none;
   object-fit: contain;
 }
+/* A portrait plate shown whole can still be too tall — Bellin's port plan is
+   1200x1420, which at full width runs to ~757px and buries the page. .capped
+   bounds the height WITHOUT cropping: the plate letterboxes onto the tile
+   ground instead of losing its edges. */
+.hero.capped img {
+  max-height: 500px;
+  object-fit: contain;
+  background:
+    var(--azulejo) 0 0 / 44px 44px,
+    var(--tile-deep);
+}
 .hero figcaption {
   font-size: .76rem;
   line-height: 1.45;
@@ -262,6 +273,7 @@ footer {
 @media (max-width: 460px) {
   .hero img { max-height: 220px; }
   .hero.uncropped img { max-height: none; }
+  .hero.capped img { max-height: 400px; }
   figure.plate.tall { max-width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
