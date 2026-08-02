@@ -11,9 +11,6 @@
  */
 window.TOUR = {
   slug: 'lisboa',
-  // No recorded narration yet — the player speaks the text with the browser
-  // voice instead. This flag makes it do so inside the user's tap; see speakStop().
-  hasAudio: false,
   tileCache: 'lisboa-tiles-v1',
   center: [38.71084, -9.13682],
   bounds: { north: 38.7159, south: 38.7058, west: -9.1454, east: -9.1282 },
