@@ -2,7 +2,8 @@
 /* Bump SHELL_CACHE whenever data.js / app.js change — the fetch handler below is
  * cache-first, so without a new cache name an installed tour keeps serving the old
  * data.js and the new stops never appear. v1: initial build. */
-var SHELL_CACHE = 'lisboa-shell-v4';
+var PREFIX = 'lisboa-';
+var SHELL_CACHE = 'lisboa-shell-v5';
 var TILE_CACHE = 'lisboa-tiles-v1';
 var SHELL = [
   './',
@@ -35,7 +36,13 @@ self.addEventListener('activate', function (e) {
   e.waitUntil(
     caches.keys().then(function (keys) {
       return Promise.all(keys.map(function (k) {
-        if (k !== SHELL_CACHE && k !== TILE_CACHE) return caches.delete(k);
+        // ONLY tidy up this tour's own old caches. Cache Storage is per-ORIGIN,
+        // not per-scope, so an unprefixed sweep here deletes the other three
+        // tours' offline data and the trip pages' cache along with it — which
+        // is exactly what it used to do.
+        if (k.indexOf(PREFIX) === 0 && k !== SHELL_CACHE && k !== TILE_CACHE) {
+          return caches.delete(k);
+        }
       }));
     }).then(function () { return self.clients.claim(); })
   );
