@@ -14,7 +14,7 @@
  * so a rebuild is picked up when there IS signal but nothing breaks when there isn't.
  */
 
-var VERSION = 'trip-v4';
+var VERSION = 'trip-v5';
 var CACHE = 'portugal-' + VERSION;
 
 var PAGES = [
@@ -55,7 +55,13 @@ var IMAGES = [
   'img/lisbon-opera-1757.webp', 'img/lisbon-arco.webp', 'img/caldas-jarra-1895.webp',
   'img/caldas-ze-povinho.webp', 'img/caldas-fabrica-1881.webp'
 ];
-PAGES = PAGES.concat(IMAGES);
+
+/* The anthem behind the hero map on the landing page. 1.1 MB, public domain
+ * (U.S. Navy Band). Precached so it plays on a hillside in Alfama with no
+ * signal, which is the only setting in which anyone will actually want it. */
+var AUDIO = ['audio/a-portuguesa.mp3'];
+
+PAGES = PAGES.concat(IMAGES, AUDIO);
 
 self.addEventListener('install', function (e) {
   e.waitUntil(
