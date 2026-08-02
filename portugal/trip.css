@@ -52,16 +52,52 @@ header {
   border-bottom: 3px solid var(--gold);
   overflow: hidden;
 }
+/* A scrim between the tile and the text. The pattern's white strokes are what
+   make the header handsome, but small light-blue text sitting directly on one
+   drops to about 2:1 contrast and visually dissolves — the h1 only got away
+   with it by being large and bold. This mutes the tile just enough under the
+   type without flattening it. */
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+              rgba(10,30,56,.56) 0%,
+              rgba(10,30,56,.44) 55%,
+              rgba(10,30,56,.50) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
 header > * { position: relative; z-index: 1; }
 header h1 {
   letter-spacing: .01em;
-  text-shadow: 0 1px 2px rgba(0,0,0,.28);
+  text-shadow: 0 1px 3px rgba(4,16,32,.55);
 }
-header a { text-decoration: none; }
-header a:hover { text-decoration: underline; }
 
-/* Index page has a taller, centred header — give it more presence. */
-header p.sub, header p { text-shadow: 0 1px 2px rgba(0,0,0,.22); }
+/* The back link gets its own chip, so it never has to compete with whatever
+   part of the tile happens to be behind it. */
+header a {
+  display: inline-block;
+  text-decoration: none;
+  color: #eef4fc !important;
+  background: rgba(8,26,50,.52);
+  border: 1px solid rgba(255,255,255,.32);
+  border-radius: 999px;
+  padding: .2rem .66rem .26rem;
+  line-height: 1.25;
+  text-shadow: 0 1px 2px rgba(4,16,32,.5);
+}
+header a:hover {
+  text-decoration: none;
+  background: rgba(8,26,50,.74);
+  border-color: rgba(255,255,255,.55);
+}
+
+header p.sub, header p {
+  color: #f2f7fd;
+  opacity: 1;
+  text-shadow: 0 1px 3px rgba(4,16,32,.62);
+}
 
 /* ---------- Content surfaces ---------------------------------------------- */
 main section,
