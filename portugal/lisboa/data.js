@@ -41,10 +41,20 @@ window.TOUR = {
         'The church in front of you has no roof, and that is not neglect. It is the great visible scar of the Lisbon earthquake, deliberately left as it fell.',
         'On the morning of Saturday 1 November 1755 — All Saints’ Day, with the churches full and candles lit on every altar — three shocks hit the city over several minutes. The Gothic vaults of this church came down onto the congregation. Fires started in the wreckage from the fallen candles and burned for days, and perhaps forty minutes after the shaking a series of waves came up the Tagus and took the crowds who had run to the open ground by the river to escape the falling masonry. Estimates of the dead vary enormously and no honest account settles on a figure; the older confident numbers are guesses. What is certain is that the lower city ceased to exist.',
         'The king’s minister, the future Marquis of Pombal, is supposed to have answered the question of what to do with the line “bury the dead and feed the living.” The attribution may be tidier than the truth, but the policy was real: he had the dead buried at sea against the objections of the church, the looters hanged in public, the ruins surveyed, and within a month a plan drawn for rebuilding the whole lower town on a grid. He also had questionnaires sent to every parish asking how long the shaking lasted and which way animals ran — which is why 1755 is often called the first scientifically studied earthquake.',
+        'The argument this church started did not stay in Portugal. If God is just, why Lisbon, and why on All Saints’ Day with the faithful at Mass? Voltaire, in Geneva, wrote a poem on the disaster within weeks of the news and published it the following year — an attack on the comfortable doctrine that all is for the best in the best of all possible worlds. Rousseau wrote back to argue that the dead were killed by the decision to stack a city into six-storey buildings, not by Providence. Three years later Voltaire returned to it in Candide, where Pangloss stands in exactly this rubble explaining to the dying that it could not have been otherwise, and the survivors are marched to an auto-da-fé to prevent further earthquakes — which is a joke about the Rossio, a few hundred metres north, where the real ones were held.',
         'And then, two centuries later, this quiet square was where the dictatorship ended. On 25 April 1974 the officers of the Carnation Revolution surrounded the National Republican Guard barracks here, where Marcelo Caetano had taken refuge, and he surrendered the government to them that evening. Almost nobody was killed. The soldiers put carnations in their gun barrels, which is where the name comes from.'
       ],
       next: 'A short walk east, 126 metres, to the top of the Santa Justa lift.',
-      walk: []
+      walk: [],
+      // The direct .pdf address at Gallica bounces to a bot check, so this points at
+      // the reader; the PDF is one click away on its Download button.
+      links: [
+        {
+          label: 'Voltaire’s poem on the disaster (1756)',
+          url: 'https://gallica.bnf.fr/ark:/12148/bpt6k5727289v',
+          note: 'the Bibliothèque nationale de France’s digitised copy of the Cramer edition; the Download button in its toolbar gives the PDF'
+        }
+      ]
     },
     {
       id: 'santa-justa',

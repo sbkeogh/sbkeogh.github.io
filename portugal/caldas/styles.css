@@ -202,6 +202,7 @@ body {
 .sheet.collapsed .sheet-body,
 .sheet.collapsed .sheet-next,
 .sheet.collapsed .sheet-walk,
+.sheet.collapsed .sheet-links,
 .sheet.collapsed .sheet-nav { display: none; }
 .sheet-grip { display: flex; justify-content: center; padding: 8px 0 2px; cursor: grab; }
 .sheet-grip span { width: 42px; height: 4px; border-radius: 4px; background: #d3dae2; }
@@ -273,6 +274,24 @@ body {
 }
 .sheet-walk p { margin-bottom: 0.7em; }
 .sheet-walk p:last-child { margin-bottom: 0; }
+.sheet-links {
+  margin: 4px 16px 8px;
+  padding: 10px 12px;
+  border-left: 3px solid #d3dae2;
+  font-size: 0.83rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.sheet-links h3 {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+.sheet-links a { color: var(--blue-bright); }
+.sheet-links p { margin-bottom: 0.6em; }
+.sheet-links p:last-child { margin-bottom: 0; }
 .sheet-nav {
   display: flex;
   justify-content: space-between;

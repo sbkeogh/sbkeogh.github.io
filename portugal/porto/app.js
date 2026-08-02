@@ -71,6 +71,18 @@
     } else {
       walkEl.classList.add('hidden');
     }
+    /* Sources and further reading. Kept out of s.story deliberately: speakStop()
+       joins the story text for narration, so markup there would be read aloud. */
+    var linksEl = document.getElementById('sheet-links');
+    if (s.links && s.links.length) {
+      document.getElementById('sheet-links-body').innerHTML = s.links.map(function (l) {
+        return '<p><a href="' + l.url + '" target="_blank" rel="noopener">' + l.label + '</a>' +
+          (l.note ? ' — ' + l.note : '') + '</p>';
+      }).join('');
+      linksEl.classList.remove('hidden');
+    } else {
+      linksEl.classList.add('hidden');
+    }
     document.getElementById('btn-prev').disabled = i === 0;
     document.getElementById('btn-next').disabled = i === stops.length - 1;
     updateSheetDistance();
