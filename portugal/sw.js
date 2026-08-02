@@ -14,7 +14,7 @@
  * so a rebuild is picked up when there IS signal but nothing breaks when there isn't.
  */
 
-var VERSION = 'trip-v3';
+var VERSION = 'trip-v4';
 var CACHE = 'portugal-' + VERSION;
 
 var PAGES = [
@@ -37,8 +37,25 @@ var PAGES = [
   'art-lisbon.html',
   'art-porto.html',
   'history-caldas.html',
-  'offline.js'
+  'credits.html',
+  'offline.js',
+  'trip.css'
 ];
+
+/* Pictures. All public domain, all local — see credits.html. Precached with the
+ * pages because a trip site that loses its illustrations the moment the signal
+ * goes is not much of an improvement on one that never had any. ~1.9 MB total,
+ * which is the whole point of opening this once on wifi before flying. */
+var IMAGES = [
+  'img/map-portugal-1801.webp', 'img/map-portugal-1747.webp', 'img/map-south-1775.webp',
+  'img/lisbon-port-plan.webp', 'img/evora-sargent.webp', 'img/evora-templo-1890.webp',
+  'img/evora-porta-aviz.webp', 'img/evora-plan-1677.webp', 'img/porto-ponte-1883.webp',
+  'img/porto-ponte-pensil.webp', 'img/porto-cloister-1892.webp', 'img/douro-pinhao.webp',
+  'img/lisbon-tagus.webp', 'img/lisbon-se-1757.webp', 'img/lisbon-patriarcal-1757.webp',
+  'img/lisbon-opera-1757.webp', 'img/lisbon-arco.webp', 'img/caldas-jarra-1895.webp',
+  'img/caldas-ze-povinho.webp', 'img/caldas-fabrica-1881.webp'
+];
+PAGES = PAGES.concat(IMAGES);
 
 self.addEventListener('install', function (e) {
   e.waitUntil(

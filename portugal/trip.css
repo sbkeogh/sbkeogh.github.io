@@ -1,0 +1,264 @@
+/* Portugal 2026 — shared visual layer.
+ *
+ * Loaded AFTER each page's own <style> block, so it wins on shared selectors and
+ * can restyle the existing markup without touching it. Everything here is additive:
+ * pages that don't use the new classes are only lightly affected (header, type).
+ *
+ * Served unencrypted alongside the StatiCrypt output — there is nothing private in
+ * a stylesheet, and the pages need it offline, so it is precached by sw.js.
+ *
+ * Design: azulejo blue and white on warm paper. Imagery is period prints, maps,
+ * photographs and paintings, all public domain — credited in full on credits.html.
+ */
+
+:root {
+  --tile: #1d4e89;
+  --tile-deep: #143a68;
+  --tile-light: #3a76b5;
+  --tile-wash: #eaf1f8;
+  --cream: #faf6ef;
+  --paper: #fffdfa;
+  --ink: #22303c;
+  --muted: #5a6672;
+  --line: #e3ddd2;
+  --terracotta: #b4622d;
+  --gold: #c8922a;
+}
+
+/* ---------- Azulejo pattern ------------------------------------------------
+ * A single hand-drawn tile, inlined as a data URI so it costs no request and
+ * works offline. Used at low opacity behind headers and as section ornament.  */
+:root {
+  --azulejo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.1' stroke-opacity='.5'%3E%3Cpath d='M22 6c4 6 10 12 16 16-6 4-12 10-16 16-4-6-10-12-16-16 6-4 12-10 16-16z'/%3E%3Ccircle cx='22' cy='22' r='3.4'/%3E%3Cpath d='M0 0h2M42 0h2M0 44h2M42 44h2'/%3E%3C/g%3E%3C/svg%3E");
+  --azulejo-blue: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cg fill='none' stroke='%231d4e89' stroke-width='1' stroke-opacity='.15'%3E%3Cpath d='M22 6c4 6 10 12 16 16-6 4-12 10-16 16-4-6-10-12-16-16 6-4 12-10 16-16z'/%3E%3Ccircle cx='22' cy='22' r='3.4'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+body {
+  background-color: var(--cream);
+  /* faint tile wash behind the whole page */
+  background-image: var(--azulejo-blue);
+  background-size: 58px 58px;
+  background-attachment: fixed;
+}
+body > main,
+body > footer { position: relative; }
+
+/* ---------- Header --------------------------------------------------------- */
+header {
+  position: relative;
+  background-color: var(--tile) !important;
+  background-image: var(--azulejo) !important;
+  background-size: 44px 44px !important;
+  border-bottom: 3px solid var(--gold);
+  overflow: hidden;
+}
+header > * { position: relative; z-index: 1; }
+header h1 {
+  letter-spacing: .01em;
+  text-shadow: 0 1px 2px rgba(0,0,0,.28);
+}
+header a { text-decoration: none; }
+header a:hover { text-decoration: underline; }
+
+/* Index page has a taller, centred header — give it more presence. */
+header p.sub, header p { text-shadow: 0 1px 2px rgba(0,0,0,.22); }
+
+/* ---------- Content surfaces ---------------------------------------------- */
+main section,
+main .warn,
+main .crit {
+  box-shadow: 0 1px 2px rgba(34,48,60,.05), 0 6px 18px -12px rgba(34,48,60,.28);
+}
+main section { background: var(--paper); }
+
+main section h2 {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: .35rem;
+  margin-bottom: .6rem;
+}
+/* the section-heading tile bullet */
+main section h2::before {
+  content: "";
+  display: inline-block;
+  width: .62rem; height: .62rem;
+  margin-right: .48rem;
+  transform: rotate(45deg) translateY(-1px);
+  background: var(--tile-light);
+  border-radius: 1px;
+  opacity: .85;
+}
+main section h2 .when { margin-left: 1.1rem; }
+
+/* ---------- Prose pages ----------------------------------------------------
+ * The history and art pages are flat h2/p documents with no <section> wrappers,
+ * so without this their body text sits straight on the patterned background.
+ * Give the whole column one sheet of paper to sit on instead. */
+main.paper {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-top: 1.25rem;
+  margin-bottom: 2rem;
+  padding: 1.4rem 1.4rem 2rem;
+  box-shadow: 0 1px 2px rgba(34,48,60,.05), 0 8px 22px -14px rgba(34,48,60,.35);
+}
+main.paper > h2:first-of-type { margin-top: .2rem; }
+main.paper h2 {
+  margin-top: 1.6rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: .3rem;
+}
+main.paper .hero { margin-top: -.2rem; }
+
+/* ---------- Hero ----------------------------------------------------------- */
+.hero {
+  margin: 0 0 1.25rem;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--tile-deep);
+  box-shadow: 0 2px 4px rgba(34,48,60,.10), 0 14px 30px -18px rgba(20,58,104,.7);
+}
+.hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 340px;
+  object-fit: cover;
+  object-position: center;
+}
+/* Portrait-shaped subjects (ceramics, caricatures, plans) must not be cropped to a
+   band — show them whole against the deep tile ground instead. */
+.hero.contain img {
+  object-fit: contain;
+  max-height: 340px;
+  padding: .9rem 0;
+  background:
+    var(--azulejo) 0 0 / 44px 44px,
+    var(--tile-deep);
+}
+.hero figcaption {
+  font-size: .76rem;
+  line-height: 1.45;
+  color: #d8e4f1;
+  background: var(--tile-deep);
+  padding: .5rem .8rem;
+  font-style: italic;
+}
+.hero figcaption .cred { color: #9fb6cd; font-style: normal; }
+
+/* ---------- Plates (inline figures) ---------------------------------------- */
+figure.plate {
+  margin: 1.1rem 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: .6rem .6rem .1rem;
+  box-shadow: 0 1px 2px rgba(34,48,60,.05);
+}
+figure.plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  background: #f0ece4;
+}
+figure.plate figcaption {
+  font-size: .8rem;
+  line-height: 1.5;
+  color: var(--muted);
+  font-style: italic;
+  padding: .5rem .15rem .55rem;
+}
+figure.plate figcaption .cred {
+  display: block;
+  font-style: normal;
+  font-size: .72rem;
+  color: #93999f;
+  margin-top: .15rem;
+}
+/* narrow variant for tall portraits / ceramics */
+figure.plate.tall { max-width: 380px; margin-left: auto; margin-right: auto; }
+
+/* ---------- Ornament ------------------------------------------------------- */
+.orn {
+  height: 26px;
+  margin: 1.4rem 0;
+  background-image: var(--azulejo-blue);
+  background-size: 26px 26px;
+  background-repeat: repeat-x;
+  background-position: center;
+  opacity: .55;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+}
+
+/* ---------- Index cards ---------------------------------------------------- */
+a.card {
+  background: var(--paper) !important;
+  box-shadow: 0 1px 2px rgba(34,48,60,.05), 0 8px 20px -16px rgba(34,48,60,.5);
+  transition: transform .12s ease, box-shadow .12s ease, border-left-color .12s ease;
+}
+a.card:hover {
+  transform: translateX(3px);
+  box-shadow: 0 2px 4px rgba(34,48,60,.08), 0 12px 26px -14px rgba(29,78,137,.55);
+}
+a.card.tour { background: #f7f3ec !important; }
+
+/* ---------- Typography polish --------------------------------------------- */
+main p { hyphens: auto; }
+main section > p:first-of-type { margin-top: .15rem; }
+
+/* Drop cap, opt-in via class on the paragraph */
+p.lead::first-letter {
+  float: left;
+  font-size: 3.1rem;
+  line-height: .82;
+  padding: .12em .12em 0 0;
+  color: var(--tile);
+  font-weight: bold;
+}
+
+/* Pull quote */
+blockquote.pull {
+  margin: 1rem 0;
+  padding: .2rem 0 .2rem 1rem;
+  border-left: 3px solid var(--gold);
+  font-style: italic;
+  color: #3d4c59;
+}
+
+/* ---------- Credits -------------------------------------------------------- */
+.credits-list { list-style: none; padding-left: 0; font-size: .84rem; }
+.credits-list li {
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: .7rem;
+  align-items: flex-start;
+}
+.credits-list li:last-child { border-bottom: 0; }
+.credits-list img {
+  width: 62px; height: 46px; object-fit: cover;
+  border-radius: 3px; flex: 0 0 auto; background: #eee;
+}
+.credits-list .meta { flex: 1 1 auto; }
+.credits-list .t { font-style: italic; }
+.credits-list .a { color: var(--muted); }
+
+/* ---------- Footer --------------------------------------------------------- */
+footer {
+  border-top: 1px solid var(--line);
+  background: rgba(255,253,250,.75);
+}
+
+/* ---------- Responsive / motion ------------------------------------------- */
+@media (max-width: 460px) {
+  .hero img { max-height: 220px; }
+  figure.plate.tall { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  a.card, a.card:hover { transition: none; transform: none; }
+}
+
+/* Images should never force a horizontal scroll. */
+img { max-width: 100%; }
