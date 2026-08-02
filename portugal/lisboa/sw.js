@@ -2,7 +2,7 @@
 /* Bump SHELL_CACHE whenever data.js / app.js change — the fetch handler below is
  * cache-first, so without a new cache name an installed tour keeps serving the old
  * data.js and the new stops never appear. v1: initial build. */
-var SHELL_CACHE = 'lisboa-shell-v1';
+var SHELL_CACHE = 'lisboa-shell-v2';
 var TILE_CACHE = 'lisboa-tiles-v1';
 var SHELL = [
   './',

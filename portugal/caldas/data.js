@@ -9,6 +9,9 @@
  */
 window.TOUR = {
   slug: 'caldas',
+  // No recorded narration yet — the player speaks the text with the browser
+  // voice instead. This flag makes it do so inside the user's tap; see speakStop().
+  hasAudio: false,
   tileCache: 'caldas-tiles-v1',
   center: [39.40122, -9.13191],
   bounds: { north: 39.4060, south: 39.3964, west: -9.1360, east: -9.1278 },

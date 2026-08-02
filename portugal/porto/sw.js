@@ -2,7 +2,7 @@
 /* Bump SHELL_CACHE whenever data.js / app.js change — the fetch handler below is
  * cache-first, so without a new cache name an installed tour keeps serving the old
  * data.js and the new stops never appear. v3: added the Gaia leg (stops 13–16). */
-var SHELL_CACHE = 'porto-shell-v3';
+var SHELL_CACHE = 'porto-shell-v4';
 var TILE_CACHE = 'porto-tiles-v1';
 var SHELL = [
   './',

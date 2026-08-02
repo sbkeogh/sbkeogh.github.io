@@ -141,13 +141,19 @@
 
   function speakStop(s) {
     stopSpeaking();
-    // Prefer a recorded narration file; fall back to speech synthesis.
+    // Tours with no recorded narration must speak SYNCHRONOUSLY, still inside the
+    // click that triggered this. Going through playRecorded() first would 404, and
+    // its play() promise rejects asynchronously — so speakSynth() would then run in
+    // a promise callback, outside the user-activation context. iOS Safari refuses
+    // speechSynthesis.speak() without user activation, which is silence, not an error.
+    if (window.TOUR.hasAudio === false) { speakSynth(s); return; }
+    // Otherwise prefer the recorded file and fall back to speech synthesis.
     playRecorded(s).catch(function () { speakSynth(s); });
   }
 
   function speakSynth(s) {
     if (!window.speechSynthesis) {
-      showStatus('Speech synthesis is not available on this device.');
+      showStatus('Narration is not available on this browser — the text is all here to read.');
       return;
     }
     // Chunk by sentence: iOS Safari silently cuts off long utterances.

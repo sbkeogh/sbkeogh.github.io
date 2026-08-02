@@ -7,6 +7,9 @@
  */
 window.TOUR = {
   slug: 'evora',
+  // No recorded narration yet — the player speaks the text with the browser
+  // voice instead. This flag makes it do so inside the user's tap; see speakStop().
+  hasAudio: false,
   tileCache: 'evora-tiles-v1',
   center: [38.57241, -7.90951],
   bounds: { north: 38.5780, south: 38.5668, west: -7.9166, east: -7.9024 },
