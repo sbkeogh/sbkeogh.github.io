@@ -136,6 +136,13 @@ main.paper .hero { margin-top: -.2rem; }
     var(--azulejo) 0 0 / 44px 44px,
     var(--tile-deep);
 }
+.hero.uncropped img {
+  /* Some hero images ARE the thing, not a decorative band across the top — an
+     antique map is meant to be read. Show the whole plate at its natural ratio
+     rather than cropping it to a strip. */
+  max-height: none;
+  object-fit: contain;
+}
 .hero figcaption {
   font-size: .76rem;
   line-height: 1.45;
@@ -254,6 +261,7 @@ footer {
 /* ---------- Responsive / motion ------------------------------------------- */
 @media (max-width: 460px) {
   .hero img { max-height: 220px; }
+  .hero.uncropped img { max-height: none; }
   figure.plate.tall { max-width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
