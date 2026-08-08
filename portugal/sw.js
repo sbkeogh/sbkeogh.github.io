@@ -14,7 +14,7 @@
  * so a rebuild is picked up when there IS signal but nothing breaks when there isn't.
  */
 
-var VERSION = 'trip-v15';
+var VERSION = 'trip-v16';
 var CACHE = 'portugal-' + VERSION;
 
 var PAGES = [
@@ -44,6 +44,8 @@ var PAGES = [
   'credits.html',
   'language.html',
   'peninsular-war.html',
+  'museums.html',
+  'aquariums-libraries.html',
   'offline.js',
   'trip.css'
 ];
