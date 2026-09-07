@@ -114,9 +114,9 @@ window.FELIX = {
       trigger:"New case", command:"New case", invoke:"Say this to Felix",
       blurb:"Guided setup for a new matter, keeping client, matter, and folder distinct — with a conflict check before anything is created.",
       detail:"New Case walks through opening a matter, holding the distinction between the client (the person represented), the matter (the estate, trust, or proceeding), and the folder (named for the subject). A conflict check runs automatically and blocks the setup on a hard conflict until it's resolved.",
-      steps:["Gathers client, matter, and folder details","Runs a conflict check — blocks on a hard hit","Creates the matter and folder structure","Records the matter in the billing system"],
-      notes:["A hard conflict halts the process until you decide how to proceed."],
-      related:["conflict-check","case-activation","client-lookup","slash-case-intake"] },
+      steps:["Gathers client, matter, and folder details","Runs a conflict check — blocks on a hard hit","Creates the matter and folder structure","Records the matter in the billing system","Finds or creates the matter's task project in the workspace folder for its practice area, and links it to the case record"],
+      notes:["A hard conflict halts the process until you decide how to proceed.","The task project search checks known spelling variants first, so a near-miss reuses the existing project instead of creating a duplicate."],
+      related:["conflict-check","case-activation","client-lookup","slash-case-intake","todoist"] },
 
     { id:"conflict-check", cat:"cases", kind:"command", name:"Conflict Check",
       trigger:"Conflict check [names]", command:"Conflict check [names]", invoke:"Say this to Felix",
@@ -129,9 +129,9 @@ window.FELIX = {
     { id:"case-activation", cat:"cases", kind:"command", name:"Case Activation",
       trigger:"(provide a matter folder)", command:"Activate the case at [folder path]", invoke:"Give Felix the matter folder",
       blurb:"Activates a matter for focused work, with a mandatory court-status check and a confirmation step.",
-      detail:"Point Felix at a matter folder and it loads the matter for focused work — running a mandatory court-status check first, defaulting court searches to non-confidential, and asking before it creates any saved case state.",
-      notes:["Court status is always checked on activation.","Felix asks before creating case state — it won't assume."],
-      related:["case-briefing","client-lookup"] },
+      detail:"Point Felix at a matter folder and it loads the matter for focused work — running a mandatory court-status check first, defaulting court searches to non-confidential, and asking before it creates any saved case state. It also looks up the matter's task project, proposes creating one if none exists, and once you confirm, creates it in the right workspace folder and links it to the case record so every later automation files to the right place.",
+      notes:["Court status is always checked on activation.","Felix asks before creating case state — it won't assume.","The task project is created only after you confirm the findings; follow-ups the activation surfaces are filed into it."],
+      related:["case-briefing","client-lookup","new-case","todoist"] },
 
     { id:"case-briefing", cat:"cases", kind:"command", name:"Case Briefing",
       trigger:"Status on [case]", command:"Status on [case]", invoke:"Say this to Felix",
@@ -441,12 +441,12 @@ window.FELIX = {
       related:["turbocourt-efiling","slash-ct-probate-filing"] },
 
     /* ---------------- Automation ---------------- */
-    { id:"felix-monitor", cat:"automation", kind:"automation", name:"Felix Inbox Monitor",
-      trigger:"(runs 24/7)", command:"Check Felix monitor", invoke:"Runs automatically · check status with",
-      blurb:"Polls the Felix inbox around the clock, triages actionable email into tasks, and sends a morning summary.",
-      detail:"A round-the-clock daemon that polls the Felix inbox every few minutes, triages actionable email into tasks, and sends a daily summary each morning. Court and firm senders are protected from noise filtering. It also powers the staff-reminder and publication-notice automations.",
+    { id:"felix-monitor", cat:"automation", kind:"automation", name:"Felix Inbox Triage",
+      trigger:"(runs hourly, business hours)", command:"Check Felix monitor", invoke:"Runs automatically · check status with",
+      blurb:"Reads the Felix inbox every hour, judges what needs the attorney's action, and files it as a task in the right matter project.",
+      detail:"A cloud-hosted agent that reads unread mail in the Felix inbox every hour during business hours, decides by comprehension — not keywords — which messages need the attorney's action, and files each one as a task. It matches the matter by surname and matter type and files into that project; when no matter fits, it files into the umbrella project for the practice area with the sender or subject as a prefix, and firm administration as the catch-all for anything not tied to a client. It never files into the Todoist Inbox, never creates projects, and never sends mail. Court and firm senders are protected from noise filtering, and it keeps a run ledger of what it judged and why. The older round-the-clock local daemon it replaced also powered the staff-reminder and publication-notice automations.",
       examples:["Felix inbox status"],
-      related:["staff-reminder","publication-notice","felix-status"] },
+      related:["staff-reminder","publication-notice","felix-status","todoist"] },
 
     { id:"staff-reminder", cat:"automation", kind:"automation", name:"Staff Reminder Auto-Handler",
       trigger:"(runs on incoming mail)", command:"Check Felix monitor", invoke:"Runs automatically · inspect with",
@@ -498,9 +498,10 @@ window.FELIX = {
 
     { id:"todoist", cat:"integrations", kind:"integration", name:"Todoist",
       trigger:"(tasks)", command:null, invoke:"Felix uses this automatically — no command to launch",
-      blurb:"Task and deadline management, organized by matter and priority.",
-      detail:"The task manager. Felix creates and moves tasks by matter and priority, and reads due tasks for Check In and Deadlines.",
-      related:["deadlines","roam-todo-sync","staff-reminder"] },
+      blurb:"Task and deadline management — one project per matter, organized in a team workspace by practice area.",
+      detail:"The task manager. Felix creates and moves tasks by matter and priority, and reads due tasks for Check In and Deadlines. Every matter has its own project, and the projects live in a Todoist Business workspace sorted into folders by practice area (estates, estate planning, care and Medicaid planning, trusts, conservatorships, litigation, firm administration), each restricted to invited members. When Felix files work for a matter that has no project yet, it creates one in the right folder and links it to the case record rather than asking or parking the task elsewhere. Anything an automation cannot tie to a matter goes into the umbrella project for its practice area, prefixed with the sender or subject so it can be re-homed; unmatched court notices and close-out paperwork for matters without a project each have a dedicated catch-all project. The Todoist Inbox is reserved for what the attorney captures by hand — no Felix automation files there.",
+      notes:["Workspace, not personal: the Business plan's project limits apply only inside the workspace, so matter projects are created there.","A missing project is created, not worked around — the account's old project cap no longer applies."],
+      related:["deadlines","roam-todo-sync","staff-reminder","new-case","case-activation","felix-monitor"] },
 
     { id:"icloud-calendar", cat:"integrations", kind:"integration", name:"iCloud Calendar",
       trigger:"(scheduling)", command:null, invoke:"Felix uses this automatically — no command to launch",
