@@ -152,7 +152,16 @@ window.FELIX = {
       blurb:"Turns a meeting recording into a filed memo and a set of follow-up tasks.",
       detail:"After a meeting, this takes the recording (preferring the highest-quality source available), drafts a memo-to-file, and creates the follow-up tasks the memo identifies.",
       examples:["Post-meeting [client]","Wrap up [client] meeting"],
-      related:["meeting-prep","plaud-sync"] },
+      related:["meeting-prep","plaud-sync","wrap"] },
+
+    { id:"wrap", cat:"cases", kind:"skill", name:"Wrap",
+      trigger:"Wrap this up", command:"Wrap up [matter]", invoke:"Say this to Felix — or it offers when a session on one matter is ending",
+      blurb:"Closes out a work session on a matter in one verified pass: memo to file, billing entry, case-record update, and task cleanup.",
+      detail:"When work on one matter is finished for the day, Wrap does the four bookkeeping steps together and verifies each. It writes the memo-to-file to the day's notes, records the time in the billing system at the minutes you name (rounded to the firm's five-minute increment), updates the case record with only what the session actually established — it never flips a phase or closes a matter on its own — and reconciles the matter's tasks: completing what was finished and creating one task per follow-up in the memo. If the matter has no task project yet, Wrap creates one in the right workspace folder and links it to the case record rather than asking or parking the follow-ups elsewhere. Everything it writes is read back before it reports, because a success message from a tool is not proof the field persisted. Billing is skipped and flagged, never guessed, when the client or matter is uncertain.",
+      steps:["Memo to file on the day's notes page","Billing entry at the stated minutes, five-minute rounding","Case record updated with this session's facts only","Tasks completed and follow-ups created in the matter's project — created and linked if missing","Everything read back, then a one-screen summary"],
+      examples:["Wrap up [matter]","Bill this at 25 minutes and update everything","Close out today's work on [matter]"],
+      notes:["Internal bookkeeping only — nothing leaves the office, so no approval gate applies.","Closing a matter or changing its phase still needs your say-so."],
+      related:["post-meeting","bill","case-briefing","todoist","roam"] },
 
     /* ---------------- Drafting ---------------- */
     { id:"cover-letter", cat:"drafting", kind:"command", name:"Cover Letter",
