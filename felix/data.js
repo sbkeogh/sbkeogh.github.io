@@ -572,5 +572,13 @@ window.FELIX = {
       blurb:"Programmatic filling of fillable PDF forms, with field mapping and render verification.",
       detail:"The form-filling engine — it maps a form's fillable fields, fills them from grounded data, and verifies the result by rendering the finished page. The machinery behind the probate form filler.",
       related:["form-filler","ct-706nt"] },
+
+    { id:"docusign", cat:"integrations", kind:"integration", name:"DocuSign",
+      trigger:"(e-signature)", command:null, invoke:"Felix uses this automatically — no command to launch",
+      blurb:"Electronic signature — checking whether a sent document has been signed, and sending the firm's own documents out for signature.",
+      detail:"The e-signature service. Felix reads envelope status — who has signed, who is still outstanding, when each step happened — and retrieves the completed, signed documents. Sending is built on the firm's own drafts (retainers, estate-planning and probate documents) and, like every outgoing item, stops for approval before anything is sent. Nothing is ever posted to a public location to make it signable.",
+      examples:["Has [client name] signed the retainer yet?","Send the engagement letter to [client name] for signature"],
+      notes:["Signature-status checks are reliable, including from scheduled background runs.","Envelope creation from local documents is being brought into the firm's production account; until that completes, sending is done in the DocuSign web app with Felix verifying the result."],
+      related:["email-reply","document-drafting","legal-templates"] },
   ]
 };
