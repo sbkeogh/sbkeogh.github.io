@@ -188,6 +188,15 @@ window.FELIX = {
       notes:["Draft-only by design: the protocol can create drafts but is barred from the send action entirely."],
       related:["email-reply","case-briefing"] },
 
+    { id:"formfill", cat:"drafting", kind:"command", name:"Fill Form (FormFill)",
+      trigger:"Fill the [form] for [client]", command:"Fill the [form] for [client]", invoke:"Say this to Felix — or Script menu ▸ Fill Form in Word",
+      blurb:"Fills the firm's questionnaire-driven Word forms natively on the Mac — answer the table at the end, run Fill, get the document.",
+      detail:"Most of the firm's planning forms (powers of attorney, health care directives, wills, trusts, deeds, receipts) carry a questionnaire table and coded fields that used to require a Windows-only add-in. FormFill reads and writes that same format on the Mac. In Word, type the answers and choose Fill Form from the Script menu; the document closes, fills, and reopens. From Felix, an answers file — one client's names, roles, addresses and dates under standard labels — fills a form or a whole set of forms at once. Reset returns a form to its blank codes, Blanks makes a hand-fill copy, and Petrify strips the questionnaire for a client-ready document. Labels are standardized across the library so one client's answers load into every form.",
+      steps:["Open a form and answer the questionnaire (or give Felix the answers)","Fill — every field, pronoun, plural, date, dollar amount and boilerplate clause is computed","Review; change an answer and fill again if needed","Petrify before anything leaves the office"],
+      notes:["Original Mac implementation of the form format; verified field-for-field against the add-in's own output across the library.","Forms are kept clean: no prior-client answers, current staff in the pickers, one label per concept.","Boilerplate passages (county names, witness towns, gift and spousal-refusal clauses) come from the firm's shared folio files."],
+      examples:["Fill the Long Form POA for [client]","Petrify this form","Reset the form"],
+      related:["document-drafting","cover-letter","form-filler"] },
+
     /* ---------------- Filings ---------------- */
     { id:"pdf-scan", cat:"filings", kind:"command", name:"PDF Scan",
       trigger:"PDF Scan", command:"PDF Scan", invoke:"Say this to Felix",
