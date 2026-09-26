@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex" />
+  <title>Client Interview Practice — Keogh.Law</title>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=686578a" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="band">
+    <div class="wrap band-inner">
+      <div class="brand"><span class="brand-firm">Keogh.Law</span><span class="brand-sep">·</span><span class="brand-sub">UConn Law Elder Law Clinic</span></div>
+      <h1 class="title">Client Interview Practice</h1>
+      <p class="tagline">Advance health care directives</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- 1. passcode -->
+    <section id="view-gate" class="view card" hidden>
+      <h2>Class passcode</h2>
+      <p class="muted">Enter the passcode from class to begin. Your interviews are recorded for teaching purposes.</p>
+      <form id="gate-form" class="row">
+        <input id="gate-pass" type="password" autocomplete="off" placeholder="Passcode" required />
+        <button class="btn primary" type="submit">Continue</button>
+      </form>
+      <p id="gate-error" class="error" role="alert" hidden></p>
+    </section>
+
+    <!-- 2. choose a client -->
+    <section id="view-pick" class="view" hidden>
+      <div class="card">
+        <h2>Before you begin</h2>
+        <p>You are the clinic student. The client has come in to talk about an advance health care directive. You know only what is on the intake card. Interview as you would in the office: introduce yourself, build rapport, ask open questions, one at a time, and listen.</p>
+        <p><strong>How it works.</strong> Hold the round button (or the space bar) while you speak, then let go. The client answers out loud. You can type instead at any time. When you are done, press <em>End interview</em> to get your transcript.</p>
+        <label class="field">Your name <span class="muted">(for the transcript)</span>
+          <input id="student-name" type="text" maxlength="80" autocomplete="name" placeholder="First and last name" />
+        </label>
+      </div>
+      <h2 class="section-title">Choose a client</h2>
+      <div id="persona-list" class="cards"></div>
+      <p id="pick-error" class="error" role="alert" hidden></p>
+    </section>
+
+    <!-- 3. the interview -->
+    <section id="view-room" class="view" hidden>
+      <div class="room">
+        <aside class="client-panel card">
+          <div id="avatar" class="avatar" aria-hidden="true"><span id="avatar-initials"></span></div>
+          <h2 id="client-name" class="client-name"></h2>
+          <p id="client-meta" class="muted"></p>
+          <p id="status" class="status" aria-live="polite">Ready.</p>
+          <details class="intake"><summary>Intake card</summary><p id="client-intake"></p></details>
+          <button id="btn-end" class="btn ghost">End interview</button>
+        </aside>
+
+        <div class="talk-panel">
+          <ol id="transcript" class="transcript" aria-live="polite" aria-label="Transcript"></ol>
+          <p id="live-caption" class="live-caption" hidden></p>
+          <div class="controls">
+            <button id="btn-talk" class="talk" aria-label="Hold to talk" aria-pressed="false">
+              <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="currentColor" d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4Zm6-4a6 6 0 0 1-12 0H4a8 8 0 0 0 7 7.93V22h2v-3.07A8 8 0 0 0 20 11h-2Z"/></svg>
+              <span id="talk-label">Hold to talk</span>
+            </button>
+            <div class="type-box">
+              <textarea id="type-input" rows="2" placeholder="Or type what you would say, then press Enter"></textarea>
+              <button id="btn-send" class="btn primary">Send</button>
+            </div>
+            <p id="mic-note" class="muted small" hidden></p>
+            <p id="room-error" class="error" role="alert" hidden></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. done -->
+    <section id="view-done" class="view card" hidden>
+      <h2>Interview ended</h2>
+      <p class="muted">Copy or download your transcript for your reflection memo. Then, if you like, start another interview.</p>
+      <div class="row">
+        <button id="btn-copy" class="btn">Copy transcript</button>
+        <a id="btn-download" class="btn" download>Download .txt</a>
+        <button id="btn-again" class="btn primary">Start another interview</button>
+      </div>
+      <pre id="done-transcript" class="transcript-text"></pre>
+    </section>
+  </main>
+
+  <footer class="wrap foot muted small">
+    <p>The client is a simulation for teaching. Nothing here is legal, medical, or spiritual advice. Interviews are stored for instructor review. Questions: <a href="mailto:stephen@keogh.law">stephen@keogh.law</a>.</p>
+  </footer>
+
+  <script>
+    // When served from keogh.ai (GitHub Pages) the API lives on Fly; when served by the Fly app itself, same origin.
+    window.CLINIC_API_BASE = /(^|\.)keogh\.ai$/.test(location.hostname) ? 'https://keogh-clinic.fly.dev' : '';
+  </script>
+  <script src="app.js?v=686578a"></script>
+</body>
+</html>
