@@ -269,8 +269,7 @@
     for (const p of r.personas) {
       const card = document.createElement('article'); card.className = 'pcard';
       const h = document.createElement('h3'); h.textContent = p.name; card.appendChild(h);
-      const meta = document.createElement('div'); meta.className = 'meta'; meta.textContent = `${p.age} · ${p.town}${p.difficulty ? ` · ${p.difficulty}` : ''}`; card.appendChild(meta);
-      if (p.focus?.length) { const chips = document.createElement('div'); chips.className = 'chips'; for (const f of p.focus) { const c = document.createElement('span'); c.className = 'chip'; c.textContent = f; chips.appendChild(c); } card.appendChild(chips); }
+      const meta = document.createElement('div'); meta.className = 'meta'; meta.textContent = `${p.age} · ${p.town}`; card.appendChild(meta);
       const note = document.createElement('p'); note.className = 'intake-note'; note.textContent = p.intakeNote; card.appendChild(note);
       const b = document.createElement('button'); b.className = 'btn primary'; b.textContent = 'Begin interview'; b.addEventListener('click', () => startSession(p.id)); card.appendChild(b);
       el.personaList.appendChild(card);
