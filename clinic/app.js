@@ -119,7 +119,7 @@
   function micUnavailable(msg) { el.talk.disabled = true; el.talkLabel.textContent = 'Type below'; el.micNote.textContent = msg; el.micNote.hidden = false; el.typeInput.focus(); }
   function startListening() {
     if (state.busy || state.listening || !ensureRecognizer()) return;
-    unlockAudio(); stopSpeaking();
+    unlockAudio(); cancelQueue();
     state.finalText = ''; state.interimText = ''; state.listening = true; state.holding = true;
     el.talk.classList.add('listening'); el.talk.setAttribute('aria-pressed', 'true'); el.talkLabel.textContent = 'Listening…';
     el.caption.textContent = 'Listening…'; el.caption.hidden = false; setStatus('Listening…'); setError(el.roomError, '');
@@ -179,19 +179,80 @@
     return li;
   }
 
+  // ---------- streamed playback ----------
+  // Sentences arrive as the client "thinks"; each is spoken as soon as its audio is ready, in order.
+  const queue = { items: [], playing: false, cancelled: false, resolveDrain: null };
+  function enqueue(item) { queue.items.push(item); if (!queue.playing) playNext(); }
+  async function playNext() {
+    if (queue.cancelled) { queue.items = []; queue.playing = false; queue.resolveDrain?.(); return; }
+    const item = queue.items.shift();
+    if (!item) { queue.playing = false; queue.resolveDrain?.(); return; }
+    queue.playing = true;
+    await speak(item.text, item.audio, item.mime);
+    playNext();
+  }
+  function cancelQueue() { queue.cancelled = true; queue.items = []; stopSpeaking(); }
+  function drained() { return queue.playing ? new Promise((r) => { queue.resolveDrain = r; }) : Promise.resolve(); }
+
+  // Parse a fetch() body as Server-Sent Events. onEvent(name, data) for each event.
+  async function readSse(res, onEvent) {
+    const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = '';
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      let idx;
+      while ((idx = buf.indexOf('\n\n')) >= 0) {
+        const chunk = buf.slice(0, idx); buf = buf.slice(idx + 2);
+        let name = 'message'; const dataLines = [];
+        for (const line of chunk.split('\n')) { if (line.startsWith('event:')) name = line.slice(6).trim(); else if (line.startsWith('data:')) dataLines.push(line.slice(5).trim()); }
+        if (dataLines.length) { try { onEvent(name, JSON.parse(dataLines.join('\n'))); } catch { /* ignore malformed */ } }
+      }
+    }
+  }
+
   // ---------- flow ----------
   async function sendTurn(text) {
     if (state.busy || !state.session) return;
     state.busy = true; el.talk.disabled = true; el.send.disabled = true; setError(el.roomError, '');
     addBubble('student', text);
-    setStatus(`${state.persona.preferredName || state.persona.name} is thinking…`); el.avatar.classList.add('thinking');
+    const who = state.persona.preferredName || state.persona.name;
+    setStatus(`${who} is thinking…`); el.avatar.classList.add('thinking');
+    queue.cancelled = false; queue.items = [];
+    let bubble = null; const spoken = new Map(); let finalText = '';
     try {
-      const r = await api('/api/turn', { method: 'POST', body: { sessionId: state.session.id, text } });
-      el.avatar.classList.remove('thinking');
-      addBubble('client', r.text, { replay: true });
-      setStatus(`${state.persona.preferredName || state.persona.name} is speaking…`);
-      await speak(r.text, r.audio, r.mime);
-      setStatus(r.remaining <= 5 ? `Your turn. (${r.remaining} exchanges left in this interview.)` : 'Your turn.');
+      const res = await fetch(API + '/api/turn/stream', { method: 'POST', headers: { 'content-type': 'application/json', 'x-clinic-pass': state.pass }, body: JSON.stringify({ sessionId: state.session.id, text }) });
+      if (!res.ok || !res.body || !(res.headers.get('content-type') || '').includes('text/event-stream')) {
+        // older server or an error status: fall back to the one-shot endpoint
+        let data = {}; try { data = await res.json(); } catch { /* ignore */ }
+        if (res.status === 401) { state.pass = ''; sessionStorage.removeItem('clinic.pass'); show('gate'); }
+        if (!res.ok) throw Object.assign(new Error(data.error || `Request failed (${res.status})`), { status: res.status, code: data.code });
+        const r = await api('/api/turn', { method: 'POST', body: { sessionId: state.session.id, text } });
+        el.avatar.classList.remove('thinking'); addBubble('client', r.text, { replay: true }); setStatus(`${who} is speaking…`);
+        await speak(r.text, r.audio, r.mime); finalText = r.text;
+        setStatus(r.remaining <= 5 ? `Your turn. (${r.remaining} exchanges left in this interview.)` : 'Your turn.');
+        return;
+      }
+      let remaining = null; let streamError = null;
+      await readSse(res, (name, data) => {
+        if (name === 'sentence') {
+          el.avatar.classList.remove('thinking');
+          if (!bubble) { bubble = addBubble('client', data.text, { replay: false }); } else { bubble.append(' ' + data.text); el.transcript.scrollTop = el.transcript.scrollHeight; }
+          spoken.set(data.i, { text: data.text });
+        } else if (name === 'audio') {
+          const s = spoken.get(data.i) || { text: '' };
+          setStatus(`${who} is speaking…`);
+          enqueue({ text: s.text, audio: data.audio, mime: data.mime });
+        } else if (name === 'done') {
+          finalText = data.text; remaining = data.remaining;
+        } else if (name === 'error') { streamError = new Error(data.error); }
+      });
+      if (streamError) throw streamError;
+      await drained();
+      if (bubble && finalText) { // make the bubble match the saved transcript and add the replay control
+        const li = bubble; li.remove(); addBubble('client', finalText, { replay: true });
+      }
+      setStatus(remaining !== null && remaining <= 5 ? `Your turn. (${remaining} exchanges left in this interview.)` : 'Your turn.');
     } catch (err) {
       el.avatar.classList.remove('thinking');
       if (err.code === 'ended' || err.code === 'session_limit') { setStatus(err.message); addBubble('system', err.message); }
@@ -250,7 +311,7 @@
       return;
     }
     clearTimeout(endArmed); endArmed = null; el.end.textContent = 'End interview';
-    stopSpeaking(); if (state.listening) stopListening(false);
+    cancelQueue(); if (state.listening) stopListening(false);
     try {
       const r = await api(`/api/session/${state.session.id}/end`, { method: 'POST' });
       el.doneText.textContent = r.transcript;
