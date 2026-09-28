@@ -171,7 +171,7 @@
     li.appendChild(document.createTextNode(text));
     if (replay && role === 'client') {
       const b = document.createElement('button'); b.className = 'replay'; b.type = 'button'; b.title = 'Play again'; b.setAttribute('aria-label', 'Play this line again'); b.textContent = '↻';
-      b.addEventListener('click', async () => { unlockAudio(); if (state.busy) return; try { const r = await api('/api/tts', { method: 'POST', body: { sessionId: state.session.id, text } }); speak(text, r.audio, r.mime); } catch { speak(text, null); } });
+      b.addEventListener('click', async () => { unlockAudio(); if (state.busy) return; cancelQueue(); await speakStreamed(text); });
       li.appendChild(b);
     }
     el.transcript.appendChild(li);
@@ -262,17 +262,32 @@
     }
   }
 
+  // Speak a known client line (opening or replay) sentence by sentence through the audio queue.
+  async function speakStreamed(text) {
+    queue.cancelled = false; queue.items = [];
+    const parts = new Map();
+    try {
+      const res = await fetch(API + '/api/speak/stream', { method: 'POST', headers: { 'content-type': 'application/json', 'x-clinic-pass': state.pass }, body: JSON.stringify({ sessionId: state.session.id, text }) });
+      if (!res.ok || !res.body || !(res.headers.get('content-type') || '').includes('text/event-stream')) { await speak(text, null); return; }
+      await readSse(res, (name, data) => {
+        if (name === 'sentence') parts.set(data.i, data.text);
+        else if (name === 'audio') enqueue({ text: parts.get(data.i) || '', audio: data.audio, mime: data.mime });
+      });
+      await drained();
+    } catch { await speak(text, null); }
+  }
+
   async function startSession(personaId) {
     setError(el.pickError, '');
     unlockAudio();
     const studentName = el.studentName.value.trim();
     if (studentName) sessionStorage.setItem('clinic.student', studentName);
     try {
-      const r = await api('/api/session', { method: 'POST', body: { personaId, studentName } });
+      const r = await api('/api/session', { method: 'POST', body: { personaId, studentName, stream: true } });
       enterRoom(r.session);
       addBubble('client', r.opening.text, { replay: true });
       setStatus(`${state.persona.preferredName || state.persona.name} is speaking…`);
-      await speak(r.opening.text, r.opening.audio, r.opening.mime);
+      if (r.opening.audio) await speak(r.opening.text, r.opening.audio, r.opening.mime); else await speakStreamed(r.opening.text);
       setStatus('Your turn. Hold the button and introduce yourself.');
     } catch (err) { setError(el.pickError, err.message); }
   }
