@@ -219,6 +219,7 @@
     state.busy = true; el.talk.disabled = true; el.send.disabled = true; setError(el.roomError, '');
     addBubble('student', text);
     const who = state.persona.preferredName || state.persona.name;
+    cancelQueue(); // the student has spoken: stop whatever the client was still saying
     setStatus(`${who} is thinking…`); el.avatar.classList.add('thinking');
     queue.cancelled = false; queue.items = [];
     let bubble = null; const spoken = new Map(); let finalText = '';
