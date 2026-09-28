@@ -86,6 +86,9 @@
 
   // ---------- speech in ----------
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  // Phones and tablets: a press-down is not a user gesture that may open the microphone (Safari
+  // refuses it), so touch devices get tap-to-talk. Mice and keyboards keep hold-to-talk.
+  const TOUCH = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || 'ontouchstart' in window;
   let rec = null;
   function ensureRecognizer() {
     if (rec || !SR) return rec;
@@ -104,35 +107,45 @@
     };
     rec.onerror = (e) => {
       if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
-        micUnavailable('The microphone is blocked for this page. Allow it in your browser’s site settings, or type your questions below.');
+        micUnavailable(TOUCH
+          ? 'The microphone is blocked for this page. iPhone or iPad: in Safari, tap the page menu in the address bar (“AA” or “⋯”), choose Website Settings, and set Microphone to Allow; then reload. Safari also needs Dictation turned on (Settings › General › Keyboard › Enable Dictation). Android: tap the icon left of the address bar › Permissions › Microphone › Allow. Or type below.'
+          : 'The microphone is blocked for this page. Allow it in your browser’s site settings, or type your questions below.');
         stopListening(false);
       } else if (e.error !== 'no-speech' && e.error !== 'aborted') {
         setError(el.roomError, `Speech recognition problem (${e.error}). You can type instead.`);
       }
     };
     rec.onend = () => {
-      if (state.listening && state.holding) { try { rec.start(); } catch { /* already restarting */ } return; } // Safari stops on silence; keep going while held
-      if (state.listening) finishListening();
+      if (!state.listening) return;
+      const hasText = Boolean(state.finalText || state.interimText);
+      // Safari stops on silence. Keep going while the button is held, and in tap mode keep going
+      // until the student has said something (up to a minute), so a pause to think is not a turn.
+      if (state.holding || (!hasText && Date.now() - state.listenStart < 60000)) { try { rec.start(); } catch { /* already restarting */ } return; }
+      finishListening(); // tap mode: a pause after speaking sends the turn
     };
     return rec;
   }
-  function micUnavailable(msg) { el.talk.disabled = true; el.talkLabel.textContent = 'Type below'; el.micNote.textContent = msg; el.micNote.hidden = false; el.typeInput.focus(); }
-  function startListening() {
+  function micUnavailable(msg) { el.talk.disabled = true; el.talkLabel.textContent = 'Type below'; el.micNote.textContent = msg; el.micNote.hidden = false; el.caption.hidden = true; setStatus('Type your questions below.'); el.typeInput.focus(); }
+  const IDLE_LABEL = TOUCH ? 'Tap to talk' : 'Hold to talk';
+  // hold=true: recording lasts while the button (or space bar) is held. hold=false: tap to start,
+  // tap again or pause to send.
+  function startListening(hold) {
     if (state.busy || state.listening || !ensureRecognizer()) return;
     unlockAudio(); cancelQueue();
-    state.finalText = ''; state.interimText = ''; state.listening = true; state.holding = true;
-    el.talk.classList.add('listening'); el.talk.setAttribute('aria-pressed', 'true'); el.talkLabel.textContent = 'Listening…';
-    el.caption.textContent = 'Listening…'; el.caption.hidden = false; setStatus('Listening…'); setError(el.roomError, '');
+    state.finalText = ''; state.interimText = ''; state.listening = true; state.holding = Boolean(hold); state.listenStart = Date.now();
+    el.talk.classList.add('listening'); el.talk.setAttribute('aria-pressed', 'true'); el.talkLabel.textContent = hold ? 'Listening…' : 'Tap when done';
+    el.caption.textContent = 'Listening…'; el.caption.hidden = false; setStatus(hold ? 'Listening…' : 'Listening… tap the button again when you are done, or just pause.'); setError(el.roomError, '');
     try { rec.start(); } catch { /* start() throws if already started */ }
   }
   function stopListening(send = true) {
     if (!state.listening) return;
     state.holding = false;
-    if (!send) { state.listening = false; try { rec.abort(); } catch { /* ignore */ } resetTalkButton(); return; }
+    if (!send) { state.listening = false; try { rec.abort(); } catch { /* ignore */ } resetTalkButton(); el.caption.hidden = true; el.caption.textContent = ''; return; }
     try { rec.stop(); } catch { finishListening(); }
-    // Do not wait for the recognizer to wind down: give a final result a quarter second to land,
-    // then send whatever we have (final plus interim text). Waiting for onend cost up to a second.
-    setTimeout(() => { if (state.listening && !state.holding) finishListening(); }, 250);
+    // If we already have words, send after a quarter second. If not (phones often deliver the
+    // whole result only after stop), give the recognizer up to 1.5 s before giving up.
+    const have = Boolean(state.finalText || state.interimText);
+    setTimeout(() => { if (state.listening && !state.holding) finishListening(); }, have ? 250 : 1500);
   }
   function finishListening() {
     if (!state.listening) return;
@@ -140,19 +153,33 @@
     try { rec.abort(); } catch { /* ignore */ }
     const text = [state.finalText, state.interimText].filter(Boolean).join(' ').trim();
     el.caption.hidden = true; el.caption.textContent = '';
-    if (text) sendTurn(text); else setStatus('I didn’t catch that. Hold the button and try again, or type.');
+    if (text) sendTurn(text); else setStatus(TOUCH ? 'I didn’t catch that. Tap the button and try again, or type.' : 'I didn’t catch that. Hold the button and try again, or type.');
   }
-  function resetTalkButton() { el.talk.classList.remove('listening'); el.talk.setAttribute('aria-pressed', 'false'); el.talkLabel.textContent = 'Hold to talk'; }
+  function resetTalkButton() { el.talk.classList.remove('listening'); el.talk.setAttribute('aria-pressed', 'false'); el.talkLabel.textContent = IDLE_LABEL; }
+  el.talkLabel.textContent = IDLE_LABEL; el.talk.setAttribute('aria-label', IDLE_LABEL);
 
-  // hold-to-talk: pointer + space bar
-  el.talk.addEventListener('pointerdown', (e) => { e.preventDefault(); el.talk.setPointerCapture?.(e.pointerId); startListening(); });
-  const release = (e) => { e.preventDefault?.(); if (state.holding) stopListening(true); };
+  // Mouse: hold-to-talk. Finger or pen: tap-to-talk. A finger's press-down is not a user gesture
+  // that may open the microphone (Safari refuses it and reports the mic as blocked); the tap's
+  // click is, so touches start the recognizer from the click instead.
+  let downType = '';
+  el.talk.addEventListener('pointerdown', (e) => {
+    downType = e.pointerType || 'mouse';
+    if (downType !== 'mouse') return;
+    e.preventDefault(); el.talk.setPointerCapture?.(e.pointerId); startListening(true);
+  });
+  const release = (e) => { if (state.holding) { e.preventDefault?.(); stopListening(true); } };
   el.talk.addEventListener('pointerup', release); el.talk.addEventListener('pointercancel', release); el.talk.addEventListener('pointerleave', (e) => { if (state.holding && e.pointerType === 'mouse' && e.buttons === 0) release(e); });
+  el.talk.addEventListener('click', (e) => {
+    e.preventDefault();
+    const wasMouse = downType === 'mouse'; downType = '';
+    if (wasMouse || state.holding) return; // the hold already handled this press
+    if (state.listening) stopListening(true); else startListening(false);
+  });
   el.talk.addEventListener('contextmenu', (e) => e.preventDefault());
   document.addEventListener('keydown', (e) => {
     if (e.code !== 'Space' || e.repeat || views.room.hidden) return;
     const t = e.target; if (t && (t.tagName === 'TEXTAREA' || t.tagName === 'INPUT' || t.isContentEditable)) return;
-    e.preventDefault(); startListening();
+    e.preventDefault(); startListening(true);
   });
   document.addEventListener('keyup', (e) => { if (e.code === 'Space' && state.holding) { e.preventDefault(); stopListening(true); } });
   window.addEventListener('blur', () => { if (state.holding) stopListening(true); });
@@ -304,7 +331,7 @@
       addBubble('client', r.opening.text, { replay: true });
       setStatus(`${state.persona.preferredName || state.persona.name} is speaking…`);
       if (r.opening.audio) await speak(r.opening.text, r.opening.audio, r.opening.mime); else await speakStreamed(r.opening.text);
-      setStatus('Your turn. Hold the button and introduce yourself.');
+      setStatus(el.talk.disabled ? 'Your turn. Type your introduction below.' : TOUCH ? 'Your turn. Tap the button and introduce yourself.' : 'Your turn. Hold the button and introduce yourself.');
     } catch (err) { setError(el.pickError, err.message); }
   }
 
@@ -316,8 +343,8 @@
     el.clientMeta.textContent = `${session.persona.age} · ${session.persona.town}`;
     el.clientIntake.textContent = session.persona.intakeNote;
     el.transcript.innerHTML = ''; setError(el.roomError, ''); el.caption.hidden = true;
-    if (!SR) micUnavailable('Voice input is not supported in this browser. Chrome, Edge, or Safari can listen to you; here, type your questions below.');
-    else { el.talk.disabled = false; el.micNote.hidden = true; el.micNote.textContent = ''; el.talkLabel.textContent = 'Hold to talk'; }
+    if (!SR) micUnavailable(TOUCH ? 'Voice input is not available in this browser. On an iPhone or iPad, open this page in Safari; on Android, use Chrome. Otherwise type your questions below.' : 'Voice input is not supported in this browser. Chrome, Edge, or Safari can listen to you; here, type your questions below.');
+    else { el.talk.disabled = false; el.micNote.hidden = true; el.micNote.textContent = ''; el.talkLabel.textContent = IDLE_LABEL; }
     show('room');
   }
 
