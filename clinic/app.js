@@ -130,12 +130,14 @@
     state.holding = false;
     if (!send) { state.listening = false; try { rec.abort(); } catch { /* ignore */ } resetTalkButton(); return; }
     try { rec.stop(); } catch { finishListening(); }
-    // Safety net: if onend never fires, finish anyway
-    setTimeout(() => { if (state.listening && !state.holding) finishListening(); }, 1500);
+    // Do not wait for the recognizer to wind down: give a final result a quarter second to land,
+    // then send whatever we have (final plus interim text). Waiting for onend cost up to a second.
+    setTimeout(() => { if (state.listening && !state.holding) finishListening(); }, 250);
   }
   function finishListening() {
     if (!state.listening) return;
     state.listening = false; resetTalkButton();
+    try { rec.abort(); } catch { /* ignore */ }
     const text = [state.finalText, state.interimText].filter(Boolean).join(' ').trim();
     el.caption.hidden = true; el.caption.textContent = '';
     if (text) sendTurn(text); else setStatus('I didn’t catch that. Hold the button and try again, or type.');
@@ -220,6 +222,16 @@
     setStatus(`${who} is thinking…`); el.avatar.classList.add('thinking');
     queue.cancelled = false; queue.items = [];
     let bubble = null; const spoken = new Map(); let finalText = '';
+    // If the first sentence is slow to arrive, play one of the client's short "thinking" sounds so
+    // the pause feels human. One per turn, never the same one twice running.
+    let gotFirst = false;
+    const fillerTimer = setTimeout(() => {
+      if (gotFirst || !state.fillers?.length) return;
+      const choices = state.fillers.filter((f) => f.text !== state.lastFiller);
+      const f = choices[Math.floor(Math.random() * choices.length)] || state.fillers[0];
+      state.lastFiller = f.text;
+      enqueue({ text: '', audio: f.audio, mime: f.mime });
+    }, 550);
     try {
       const res = await fetch(API + '/api/turn/stream', { method: 'POST', headers: { 'content-type': 'application/json', 'x-clinic-pass': state.pass }, body: JSON.stringify({ sessionId: state.session.id, text }) });
       if (!res.ok || !res.body || !(res.headers.get('content-type') || '').includes('text/event-stream')) {
@@ -236,6 +248,7 @@
       let remaining = null; let streamError = null;
       await readSse(res, (name, data) => {
         if (name === 'sentence') {
+          gotFirst = true; clearTimeout(fillerTimer);
           el.avatar.classList.remove('thinking');
           if (!bubble) { bubble = addBubble('client', data.text, { replay: false }); } else { bubble.append(' ' + data.text); el.transcript.scrollTop = el.transcript.scrollHeight; }
           spoken.set(data.i, { text: data.text });
@@ -254,10 +267,12 @@
       }
       setStatus(remaining !== null && remaining <= 5 ? `Your turn. (${remaining} exchanges left in this interview.)` : 'Your turn.');
     } catch (err) {
+      clearTimeout(fillerTimer);
       el.avatar.classList.remove('thinking');
       if (err.code === 'ended' || err.code === 'session_limit') { setStatus(err.message); addBubble('system', err.message); }
       else { setError(el.roomError, err.message); setStatus('Something went wrong. Try again.'); }
     } finally {
+      clearTimeout(fillerTimer);
       state.busy = false; if (SR && !el.micNote.textContent) el.talk.disabled = false; el.send.disabled = false;
     }
   }
@@ -284,7 +299,7 @@
     if (studentName) sessionStorage.setItem('clinic.student', studentName);
     try {
       const r = await api('/api/session', { method: 'POST', body: { personaId, studentName, stream: true } });
-      enterRoom(r.session);
+      enterRoom(r.session); state.fillers = r.fillers || [];
       addBubble('client', r.opening.text, { replay: true });
       setStatus(`${state.persona.preferredName || state.persona.name} is speaking…`);
       if (r.opening.audio) await speak(r.opening.text, r.opening.audio, r.opening.mime); else await speakStreamed(r.opening.text);
@@ -309,7 +324,7 @@
     try {
       const r = await api(`/api/session/${id}`);
       if (r.session.ended) { sessionStorage.removeItem('clinic.session'); return false; }
-      enterRoom(r.session);
+      enterRoom(r.session); state.fillers = r.fillers || [];
       for (const t of r.session.turns) addBubble(t.role, t.text, { replay: t.role === 'client' });
       addBubble('system', 'Interview resumed.');
       setStatus('Your turn.');
